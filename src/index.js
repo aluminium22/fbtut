@@ -7,6 +7,8 @@ import {createStore, applyMiddleware} from 'redux';
 import rootReducer from "./store/reducer/rootReducer";
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
+import firebase from './fbConfig';
+
 
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
