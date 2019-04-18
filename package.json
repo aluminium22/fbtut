@@ -6,10 +6,13 @@
     "firebase": "^5.9.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-redux": "^7.0.1",
-    "react-router-dom": "^5.0.0",
+    "react-redux": "^7.0.2",
+    "react-redux-firebase": "^3.0.0-alpha.11",
+    "react-redux-firestore": "0.0.1",
+    "react-router-dom": "^4.4.0-beta.8",
     "react-scripts": "2.1.8",
     "redux": "^4.0.1",
+    "redux-firestore": "^0.7.3",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
