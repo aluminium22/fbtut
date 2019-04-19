@@ -4,7 +4,7 @@ import 'firebase/auth';
 
 // Initialize Firebase
 var config = {
-xxxxxxxxx
+xxx
 };
 firebase.initializeApp(config);
 firebase.firestore();
