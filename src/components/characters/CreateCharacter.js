@@ -5,8 +5,13 @@ import {Redirect} from 'react-router-dom';
 
 class CreateCharacter extends Component {
   state = {
-    title: '',
-    content: '',
+    name: '',
+    class: '',
+    race: '',
+    hp: 0,
+    maxHp: 0,
+    initiative: 0,
+    notes: ''
   };
 
   handleChange = (e) => {
@@ -31,12 +36,32 @@ class CreateCharacter extends Component {
         <form className="white" onSubmit={this.handleSubmit}>
           <h5 className="grey-text text-darken-3">Create New Character</h5>
           <div className="input-field">
-            <label htmlFor="title">Title</label>
-            <input type="text" id="title" onChange={this.handleChange}></input>
+            <label htmlFor="name">Character Name</label>
+            <input type="text" id="name" onChange={this.handleChange}></input>
           </div>
           <div className="input-field">
-            <label htmlFor="content">character Content</label>
-            <textarea id="content" className="materialize-textarea" onChange={this.handleChange}></textarea>
+            <label htmlFor="class">Class</label>
+            <input type="text" id="class" onChange={this.handleChange}></input>
+          </div>
+          <div className="input-field">
+            <label htmlFor="race">Race</label>
+            <input type="text" id="race" onChange={this.handleChange}></input>
+          </div>
+          <div className="input-field">
+            <label htmlFor="hp">HP</label>
+            <input type="number" id="hp" onChange={this.handleChange}></input>
+          </div>
+          <div className="input-field">
+            <label htmlFor="maxHp">maxHP</label>
+            <input type="number" id="maxhp" onChange={this.handleChange}></input>
+          </div>
+          <div className="input-field">
+            <label htmlFor="initiative">Initiative</label>
+            <input type="number" id="initiative" min="0" max="15" onChange={this.handleChange}></input>
+          </div>
+          <div className="input-field">
+            <label htmlFor="notes">Notes</label>
+            <textarea id="notes" className="materialize-textarea" onChange={this.handleChange}></textarea>
           </div>
           <div className='input-field'>
             <button className="btn pink lighten-1 z-depth-0">Create</button>

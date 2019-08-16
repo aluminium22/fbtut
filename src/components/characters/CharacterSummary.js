@@ -1,14 +1,18 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
 const CharacterSummary = ({character}) => {
   return (
-    <div className='card z-depth-0 character-summary'>
-      <div className='card-content grey-text text-darken-3'>
-        <span className='card-title'>{character.title}</span>
-        <p>Posted by me</p>
-        <p className='grey-text'> date date123213 </p>
+      <div>
+          <Link to={'/character/' + character.id}>
+              <img src="https://materializecss.com/images/yuna.jpg" alt="" className="circle"/>
+              <span className="title">Title</span>
+              <p>First Line <br></br>
+                  Second Line
+              </p>
+          </Link>
+          <a href="#!" className="secondary-content"><i className="material-icons">add</i></a>
       </div>
-    </div>
   )
 }
 

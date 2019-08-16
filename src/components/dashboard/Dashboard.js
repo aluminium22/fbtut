@@ -25,7 +25,7 @@ class Dashboard extends Component {
                 </Link>
               </ul>
               <ul>
-                <Link className="waves-effect red darken-4 btn-large" to={'/master'}>
+                <Link className="waves-effect red darken-4 btn-large hide-on-large-only" to={'/characters'}>
                   <span>Characters</span>
                 </Link>
               </ul>
@@ -36,7 +36,7 @@ class Dashboard extends Component {
               </ul>
             </div>
           </div>
-          <div className='col s12 m12 l6 center-align'>
+          <div className='col s12 m12 l6 center-align hide-on-med-and-down'>
             <CharacterList characters={characters} />
           </div>
         </div>
