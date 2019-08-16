@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {createProject} from '../../store/actions/projectActions';
+import {createCharacter} from '../../store/actions/characterActions';
 import { connect } from 'react-redux';
+import {Redirect} from 'react-router-dom';
 
-class CreateProject extends Component {
+class CreateCharacter extends Component {
   state = {
     title: '',
     content: '',
@@ -15,20 +16,26 @@ class CreateProject extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     // console.log(this.state);
-    this.props.createProject(this.state);
+    this.props.createCharacter(this.state);
   }
 
   render() {
+    const { auth } = this.props.auth;
+    if(auth){
+      if(!auth.uid){
+        return <Redirect to='/signin' />
+      }
+    }
     return (
       <div className="container">
         <form className="white" onSubmit={this.handleSubmit}>
-          <h5 className="grey-text text-darken-3">Create New Project</h5>
+          <h5 className="grey-text text-darken-3">Create New Character</h5>
           <div className="input-field">
             <label htmlFor="title">Title</label>
             <input type="text" id="title" onChange={this.handleChange}></input>
           </div>
           <div className="input-field">
-            <label htmlFor="content">Project Content</label>
+            <label htmlFor="content">character Content</label>
             <textarea id="content" className="materialize-textarea" onChange={this.handleChange}></textarea>
           </div>
           <div className='input-field'>
@@ -42,8 +49,12 @@ class CreateProject extends Component {
 }
 const mapDispatchtoProps = (dispatch) => {
   return {
-    createProject: (project) => dispatch(createProject(project))
+    createCharacter: (character) => dispatch(createCharacter(character))
   }
 }
+const mapStateToProps = (state) => {
+  return{
+    auth: state.firebase.auth
+  }};
 
-export default connect(null, mapDispatchtoProps)(CreateProject);
+export default connect(mapStateToProps, mapDispatchtoProps)(CreateCharacter);

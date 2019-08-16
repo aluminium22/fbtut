@@ -1,7 +1,7 @@
 
 
 const initState = {
-  projects: [
+  characters: [
     {id: '1', title: 'help me find peach', content: 'stfu sfoisdufoiusdf'},
     {id: '2', title: 'help me find peach', content: 'stfu sfoisdufoiusdf'},
     {id: '3', title: 'help me find peach', content: 'stfu sfoisdufoiusdf'}
@@ -10,12 +10,12 @@ const initState = {
 
 
 
-const projectReducer = (state = initState, action) => {
+const characterReducer = (state = initState, action) => {
   switch(action.type){
-    case 'CREATE_PROJECT':
-      console.log('created p', action.project);
+    case 'CREATE_CHARACTER':
+      console.log('created p', action.character);
       return state;
-    case 'CREATE_PROJECT_ERROR':
+    case 'CREATE_CHARACTER_ERROR':
       console.log('error', action.error)
       return state;
     default:
@@ -24,4 +24,4 @@ const projectReducer = (state = initState, action) => {
   }
 }
 
-export default projectReducer;
+export default characterReducer;

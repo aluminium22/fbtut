@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Dashboard from './components/dashboard/Dashboard';
-import ProjectDetails from "./components/projects/ProjectDetails";
+import CharacterDetails from "./components/characters/CharacterDetails";
+import Master from "./components/masters/Master"
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
-import CreateProject from "./components/projects/CreateProject";
+import CreateCharacter from "./components/characters/CreateCharacter";
 
 class App extends Component {
   render() {
@@ -15,10 +16,11 @@ class App extends Component {
           <Navbar />
           <Switch>
             <Route exact path='/' component={Dashboard}/>
-            <Route path='/project/:id' component={ProjectDetails}/>
+            <Route path='/character/:id' component={CharacterDetails}/>
+            <Route path='/master' component={Master}/>
             <Route path='/signin' component={SignIn}/>
             <Route path='/signup' component={SignUp}/>
-            <Route path='/create' component={CreateProject}/>
+            <Route path='/create' component={CreateCharacter}/>
           </Switch>
         </div>
       </BrowserRouter>

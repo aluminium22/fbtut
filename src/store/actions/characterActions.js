@@ -1,18 +1,18 @@
 import firebase from '../../config/fbConfig'
-export const createProject = (project) => {
+export const createCharacter = (character) => {
   return (dispatch, getState) => {
     //make asunc call to database
     console.log(firebase)
-    firebase.firestore().collection('projects').add({
-      ...project,
+    firebase.firestore().collection('characters').add({
+      ...character,
       authorFirstName: 'net',
       authorLastName: 'dude',
       authorId: 12345,
       createdAt: new Date()
     }).then(() => {
-      dispatch({ type: 'CREATE_PROJECT', project });
+      dispatch({ type: 'CREATE_CHARACTER', character });
     }).catch((error) => {
-      dispatch({ type: 'CREATE_PROJECT_ERROR', error });
+      dispatch({ type: 'CREATE_CHARACTER_ERROR', error });
     });
   }
 }
