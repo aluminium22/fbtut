@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {createCharacter} from '../../store/actions/characterActions';
 import { connect } from 'react-redux';
 import {Redirect} from 'react-router-dom';
+import '../../style/custom.css'
 
 class CreateCharacter extends Component {
   state = {
@@ -33,15 +34,15 @@ class CreateCharacter extends Component {
     }
     return (
       <div className="container">
-        <form className="white" onSubmit={this.handleSubmit}>
-          <h5 className="grey-text text-darken-3">Create New Character</h5>
+        <form className=" grey darken-4" onSubmit={this.handleSubmit}>
+          <h5 className="grey-text text-lighten-3">Create New Character</h5>
           <div className="input-field">
             <label htmlFor="name">Character Name</label>
-            <input type="text" id="name" onChange={this.handleChange}></input>
+            <input className="grey-text text-lighten-3" type="text" id="name" onChange={this.handleChange}></input>
           </div>
-          <div className="input-field">
+          <div className="input-field text-lighten-3">
             <label htmlFor="class">Class</label>
-            <input type="text" id="class" onChange={this.handleChange}></input>
+            <input className="grey-text text-lighten-3" type="text" id="class" onChange={this.handleChange}></input>
           </div>
           <div className="input-field">
             <label htmlFor="race">Race</label>
