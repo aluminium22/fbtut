@@ -8,21 +8,93 @@
 }
 
 /* label underline focus color */
-.input-field input[type=text]:focus, .input-field input[type=number]:focus{
+.input-field input[type=text]:focus, .input-field input[type=number]:focus, .input-field input[type=textarea]:focus {
     border-bottom: 1px solid #eee !important;
     box-shadow: 0 1px 0 0 #eee !important;
 }
 /* valid color */
-.input-field input[type=text].valid, .input-field input[type=number].valid{
+.input-field input[type=text].valid, .input-field input[type=number].valid, .input-field input[type=textarea].valid {
     border-bottom: 1px solid #eee !important;
     box-shadow: 0 1px 0 0 #eee !important;
 }
 /* invalid color */
-.input-field input[type=text].invalid, .input-field input[type=number].invalid{
+.input-field input[type=text].invalid, .input-field input[type=number].invalid, .input-field input[type=textarea].invalid {
     border-bottom: 1px solid #eee !important;
     box-shadow: 0 1px 0 0 #eee !important;
 }
+
+/* lever/switch */
+.switch label input[type=checkbox]:checked + .lever:after {
+    background-color: #b71c1c !important;
+}
+
+.switch label .lever:before {
+    background-color: #424242 !important;
+}
+
+.switch label input[type=checkbox]:checked + .lever {
+    background-color: #000;
+}
+
 /* icon prefix focus color */
 .input-field .prefix.active {
     color: #eee !important;
+}
+
+.al-container {
+    max-width: none !important;
+}
+
+.row {
+    padding: 8px;
+}
+
+.flex-space-between {
+    justify-content: space-between !important;
+}
+
+.flex-align-items {
+    align-items: center !important;
+}
+
+.displayGrid {
+    display: grid;
+}
+
+.flex {
+    flex: 1;
+}
+
+.font16 {
+    font-size: 16px;
+}
+
+.font18 {
+    font-size: 18px;
+}
+
+.font14 {
+    font-size: 14px;
+}
+
+.font10r {
+    font-size: 10rem;
+}
+
+.height44 {
+    height: 44px;
+}
+
+.mod-deck {
+    border-radius: 4%;
+    position: absolute;
+    width: 95%;
+    background: #ef5350;
+    z-index: 200;
+    margin-top: -140px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: bold;
 }

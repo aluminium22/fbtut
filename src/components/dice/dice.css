@@ -1,0 +1,25 @@
+.flex-center-row {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-tag {
+    padding: 8px;
+    border-radius: 5%;
+    height: 55px;
+}
+
+.padding8 {
+    padding: 8px;
+}
+
+.large-input[type="number"] {
+    font-size: 40px !important;
+}
+
+.auto-input {
+    margin-top: -120px;
+}

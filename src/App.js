@@ -9,6 +9,8 @@ import SignUp from "./components/auth/SignUp";
 import CreateCharacter from "./components/characters/CreateCharacter";
 import Characters from "./components/characters/Characters";
 import MasterEncounter from "./components/Encounter/MasterEncounter";
+import JoinMaster from "./components/characters/JoinMaster";
+import Dice from "./components/dice/Dice";
 
 class App extends Component {
   render() {
@@ -20,11 +22,13 @@ class App extends Component {
             <Route exact path='/' component={Dashboard}/>
             <Route path='/character/:id' component={CharacterDetails}/>
             <Route path='/characters' component={Characters}/>
+              <Route path='/join-master' component={JoinMaster}/>
             <Route path='/master' component={Master}/>
             <Route path='/master-encounter' component={MasterEncounter}/>
             <Route path='/signin' component={SignIn}/>
             <Route path='/signup' component={SignUp}/>
             <Route path='/create' component={CreateCharacter}/>
+              <Route path='/dice' component={Dice}/>
           </Switch>
         </div>
       </BrowserRouter>

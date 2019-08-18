@@ -17,13 +17,13 @@ class CreateCharacter extends Component {
 
   handleChange = (e) => {
     this.setState({[e.target.id]: e.target.value})
-  }
+  };
 
   handleSubmit = (e) => {
     e.preventDefault();
     // console.log(this.state);
     this.props.createCharacter(this.state);
-  }
+  };
 
   render() {
     const { auth } = this.props.auth;
@@ -46,26 +46,28 @@ class CreateCharacter extends Component {
           </div>
           <div className="input-field">
             <label htmlFor="race">Race</label>
-            <input type="text" id="race" onChange={this.handleChange}></input>
+            <input className="grey-text text-lighten-3" type="text" id="race" onChange={this.handleChange}></input>
           </div>
           <div className="input-field">
             <label htmlFor="hp">HP</label>
-            <input type="number" id="hp" onChange={this.handleChange}></input>
+            <input className="grey-text text-lighten-3" type="number" id="hp" onChange={this.handleChange}></input>
           </div>
           <div className="input-field">
             <label htmlFor="maxHp">maxHP</label>
-            <input type="number" id="maxhp" onChange={this.handleChange}></input>
+            <input className="grey-text text-lighten-3" type="number" id="maxhp" onChange={this.handleChange}></input>
           </div>
           <div className="input-field">
             <label htmlFor="initiative">Initiative</label>
-            <input type="number" id="initiative" min="0" max="15" onChange={this.handleChange}></input>
+            <input className="grey-text text-lighten-3" type="number" id="initiative" min="0" max="15"
+                   onChange={this.handleChange}></input>
           </div>
           <div className="input-field">
             <label htmlFor="notes">Notes</label>
-            <textarea id="notes" className="materialize-textarea" onChange={this.handleChange}></textarea>
+            <textarea id="notes" className="materialize-textarea grey-text text-lighten-3"
+                      onChange={this.handleChange}></textarea>
           </div>
           <div className='input-field'>
-            <button className="btn pink lighten-1 z-depth-0">Create</button>
+            <button className="btn red darken-1 z-depth-0">Create</button>
           </div>
         </form>
 
@@ -77,7 +79,7 @@ const mapDispatchtoProps = (dispatch) => {
   return {
     createCharacter: (character) => dispatch(createCharacter(character))
   }
-}
+};
 const mapStateToProps = (state) => {
   return{
     auth: state.firebase.auth
