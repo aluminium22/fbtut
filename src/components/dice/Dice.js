@@ -13,19 +13,19 @@ const diceSelection = [
     {
         index: 1,
         row: [
-            {number: 4, name: '1d4', image: '', quantity: 1},
-            {number: 6, name: '1d6', image: '', quantity: 1},
-            {number: 8, name: '1d8', image: '', quantity: 1},
-            {number: 10, name: '1d10', image: '', quantity: 1},
+            {number: 4, name: '1d4', image: '1d4-min.png', quantity: 1},
+            {number: 6, name: '1d6', image: '1d6-min.png', quantity: 1},
+            {number: 8, name: '1d8', image: '1d8-min.png', quantity: 1},
+            {number: 10, name: '1d10', image: '1d10-min.png', quantity: 1},
         ]
     },
     {
         index: 2,
         row: [
-            {number: 12, name: '1d12', image: '', quantity: 1},
-            {number: 100, name: '1d100', image: '', quantity: 1},
-            {number: 20, name: '1d20', image: '', quantity: 1},
-            {number: 1000, name: 'custom', image: '', quantity: 1}
+            {number: 12, name: '1d12', image: '1d12-min.png', quantity: 1},
+            {number: 100, name: '1d100', image: '1d100-min.png', quantity: 1},
+            {number: 20, name: '1d20', image: '1d20-min.png', quantity: 1},
+
         ]
     }
 
@@ -40,6 +40,7 @@ class Dice extends Component {
         roll: 0,
         multiRoll: [],
         dieMax: 0,
+        isNat: false,
         isImbrogliando: false,
         ImbrogliandoType: 'none'
     };
@@ -94,48 +95,63 @@ class Dice extends Component {
         console.log('cancel release', die);
         const rolls = this.rollDice();
         this.setState({
+            isNat: rolls.isNat,
             roll: rolls.sumRoll,
-            multiRoll: rolls.rollCollection
+            multiRoll: rolls.rollCollection,
+            isImbrogliando: false,
+            ImbrogliandoType: 'none'
         })
     };
 
     static findMaxAndLow(isImbrogliando, type, roof) {
-        let range = {floor: 1, roof: roof};
-        console.log('is cheating?', isImbrogliando, 'type', type, 'roof', roof);
+        let range = {floor: 0, roof: roof};
         if (isImbrogliando) {
             console.log('inside@@@#', isImbrogliando, 'type', type, 'roof', roof);
             switch (type) {
                 case 'Hi':
                     range.floor = range.roof * 0.75;
-                    console.log('hi roll', range.floor, range.roof);
-                    return Math.floor(Math.random() * (range.roof - range.floor) + range.floor);
+                    console.log('hi roll');
+                    return Math.ceil(Math.random() * (range.roof - range.floor) + range.floor);
                 case 'Mid':
-                    console.log('mid roll', range.floor, range.roof);
+                    console.log('mid roll');
                     range.floor = range.roof * 0.75;
                     range.roof = range.roof * 0.25;
-                    return Math.floor(Math.random() * (range.roof - range.floor) + range.floor);
+                    return Math.ceil(Math.random() * (range.roof - range.floor) + range.floor);
                 case 'Low':
-                    console.log('low roll', range.floor, range.roof);
+                    console.log('low roll');
                     range.roof = range.roof * 0.30;
-                    return Math.floor(Math.random() * (range.roof - range.floor) + range.floor);
+                    return Math.ceil(Math.random() * (range.roof - range.floor) + range.floor);
                 default:
-                    return Math.floor(Math.random() * (range.roof - range.floor) + range.floor);
+                    return Math.ceil(Math.random() * (range.roof - range.floor) + range.floor);
             }
         }
-        return Math.floor(Math.random() * (range.roof - range.floor) + range.floor);
+        return Math.ceil(Math.random() * (range.roof - range.floor) + range.floor);
     }
 
     rollDice = () => {
         const reducer = (accumulator, currentValue) => accumulator + currentValue;
         let rolls = {};
         rolls.rollCollection = [];
+        rolls.sumArray = [];
         rolls.currentRoll = 0;
         rolls.sumRoll = 0;
+        rolls.isNat = false;
         for (let i = 0; i < this.state.quantity; i++) {
-            rolls.rollCollection.push(Dice.findMaxAndLow(this.state.isImbrogliando, this.state.ImbrogliandoType, this.state.dieMax) + this.state.mod);
+            let rollResult = Dice.findMaxAndLow(this.state.isImbrogliando, this.state.ImbrogliandoType, this.state.dieMax) + this.state.mod;
+            if ((rollResult - this.state.mod) === this.state.dieMax) {
+                rolls.rollCollection.push({isNat: true, roll: rollResult});
+            } else {
+                rolls.rollCollection.push({isNat: false, roll: rollResult});
+            }
+            rolls.sumArray.push(Dice.findMaxAndLow(this.state.isImbrogliando, this.state.ImbrogliandoType, this.state.dieMax) + this.state.mod)
         }
         rolls.currentRoll = rolls.rollCollection[rolls.rollCollection.length - 1];
-        rolls.sumRoll = rolls.rollCollection.reduce(reducer);
+        rolls.sumRoll = rolls.sumArray.reduce(reducer);
+        if (rolls.rollCollection.length === 1) {
+            if ((rolls.sumRoll - this.state.mod) === this.state.dieMax) {
+                rolls.isNat = true;
+            }
+        }
         return rolls;
     };
     toggleCheatClass = () => {
@@ -177,6 +193,12 @@ class Dice extends Component {
         }
     }
 
+    isNat = (roll) => {
+        console.log('pulse? ', roll, this.state.isNat);
+        console.log('pulse? ', roll);
+        return roll ? 'red pulse' : '';
+    };
+
     render() {
         const {characters, auth} = this.props;
         // if(!auth.uid){
@@ -217,12 +239,14 @@ class Dice extends Component {
                 </div>
                 {this.state.quantity > 1 &&
                 <div className='row flex-center-row' style={{margin: 0 + 'px'}}>
-                    {this.state.multiRoll.map((roll, ind) => {
+                    {this.state.multiRoll.map((rollResult, ind) => {
                         return (
                             <div key={ind} className='center-align valign-wrapper flex-tag'>
-                                <span className='grey-text text-lighten-3 center-align font14'>
-                                    {roll}
-                                </span>
+                                <div className={`pulse-wrapper ${this.isNat(rollResult.isNat)}`}>
+                                    <span className='grey-text text-lighten-3 center-align font14'>
+                                        {rollResult.roll}
+                                    </span>
+                                </div>
                                 {
                                     this.operator(ind, this.state.multiRoll.length)
                                 }
@@ -232,16 +256,21 @@ class Dice extends Component {
                     }
                 </div>
                 }
-                <div className={'row center-align scale-transition ' + this.rollType('auto')}>
-                    <div className='center-align'>
-                        <h1 className='font10r' style={{margin: 0 + 'px'}}>{this.state.roll}</h1>
+                <div>
+                    <div className={'row center-align scale-transition ' + this.rollType('auto')}>
+                        <div className='center-align'>
+                            <div className={`roll ${this.isNat(this.state.isNat)}`}>
+                                <span style={{margin: 0 + 'px'}}>{this.state.roll}</span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div className={'row center-align auto-input scale-transition ' + this.rollType('manual')}>
-                    <div className='center-align'>
-                        <input style={{width: '20%', display: 'inline', textAlign: 'center'}}
-                               className="grey-text text-lighten-3 large-input" value={this.state.roll} type="number"
-                               id="roll" min="1" max="100" onChange={this.handleChange}/>
+                    <div className={'row center-align auto-input scale-transition ' + this.rollType('manual')}>
+                        <div className='center-align'>
+                            <input style={{width: '20%', display: 'inline', textAlign: 'center'}}
+                                   className="grey-text text-lighten-3 large-input" value={this.state.roll}
+                                   type="number"
+                                   id="roll" min="1" max="100" onChange={this.handleChange}/>
+                        </div>
                     </div>
                 </div>
                 <div className='row center-align' style={{padding: 0 + 'px', margin: 0 + 'px'}}>
@@ -256,7 +285,7 @@ class Dice extends Component {
                     </div>
                 </div>
                 <div className='row center-align' style={{padding: 0 + 'px'}}>
-                    <div className='col s12 grey darken-3'>
+                    <div className='col s12 grey darken-3 padding8'>
                         {
                             diceSelection.map((ob, index) => {
                                 return (
@@ -267,8 +296,8 @@ class Dice extends Component {
                                                     <div className='col s3 height44 flex flex-align-items displayGrid'
                                                          key={dice.number} style={{margin: 0 + 'px'}}>
                                                         <DieButton
-                                                            value={dice.number}
-                                                            className="waves-effect waves-red btn-flat grey-text text-lighten-2"
+                                                            value={dice}
+                                                            className="waves-effect waves-red btn-flat grey-text text-lighten-2 height44"
                                                             repeatDelay={300}
                                                             repeatInterval={32}
                                                             onPressDice={this.handlePressDice}

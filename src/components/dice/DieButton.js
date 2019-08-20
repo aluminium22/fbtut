@@ -1,18 +1,20 @@
 import Repeatable from 'react-repeatable';
 import React, {Component} from 'react';
+import './dice.css';
 
 class DieButton extends Component {
+
     onPressLocal = () => {
-        this.props.onPressDice(this.props.value)
+        this.props.onPressDice(this.props.value.number)
     };
     onHoldStartLocal = () => {
-        this.props.onHoldStart(this.props.value)
+        this.props.onHoldStart(this.props.value.number)
     };
     onReleaseLocal = () => {
-        this.props.onRelease(this.props.value)
+        this.props.onRelease(this.props.value.number)
     };
     onHoldEnd = () => {
-        this.props.onHoldEnd(this.props.value)
+        this.props.onHoldEnd(this.props.value.number)
     };
 
     render() {
@@ -43,7 +45,9 @@ class DieButton extends Component {
                     // Callback fired when the mouseup, touchcancel, or touchend event is triggered.
                 }}
             >
-                {this.props.value}
+                <img className='dice-button' alt={this.props.value.number}
+                     src={require(`../dice/images/${this.props.value.image}`)}/>
+                <span className=' text-darken-4 text-bold font-size16'>{this.props.value.number}</span>
             </Repeatable>
         )
     }
