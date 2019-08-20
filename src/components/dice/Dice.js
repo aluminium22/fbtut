@@ -13,19 +13,19 @@ const diceSelection = [
     {
         index: 1,
         row: [
-            {number: 4, name: '1d4', image: '1d4-min.png', quantity: 1},
-            {number: 6, name: '1d6', image: '1d6-min.png', quantity: 1},
-            {number: 8, name: '1d8', image: '1d8-min.png', quantity: 1},
-            {number: 10, name: '1d10', image: '1d10-min.png', quantity: 1},
+            {number: 4, name: '1d4', image: '1d4.png', quantity: 1},
+            {number: 6, name: '1d6', image: '1d6.png', quantity: 1},
+            {number: 8, name: '1d8', image: '1d8.png', quantity: 1},
+            {number: 10, name: '1d10', image: '1d10.png', quantity: 1},
         ]
     },
     {
         index: 2,
         row: [
-            {number: 12, name: '1d12', image: '1d12-min.png', quantity: 1},
-            {number: 100, name: '1d100', image: '1d100-min.png', quantity: 1},
-            {number: 20, name: '1d20', image: '1d20-min.png', quantity: 1},
-
+            {number: 12, name: '1d12', image: '1d12.png', quantity: 1},
+            {number: 100, name: '1d100', image: '1d100.png', quantity: 1},
+            {number: 20, name: '1d20', image: '1d20.png', quantity: 1},
+            {number: 1000, name: 'custom', image: 'd.png', quantity: 1}
         ]
     }
 
@@ -326,7 +326,7 @@ class Dice extends Component {
                                                     <div onPointerOver={() => this.handleModSet(number)}
                                                          className='col s2 height44 flex flex-align-items displayGrid'
                                                          key={number} style={{margin: 0 + 'px'}}>
-                                                        {number}
+                                                        <a className="waves-effect waves-light red darken-1 btn">{number}</a>
                                                     </div>
                                                 )
                                             })
