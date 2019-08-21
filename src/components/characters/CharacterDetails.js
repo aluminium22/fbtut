@@ -5,10 +5,8 @@ import connect from "react-redux/es/connect/connect";
 import {Link, Redirect} from 'react-router-dom';
 
 const CharacterDetails = (props) => {
-  const { auth, character } = props;
-  if(!auth.uid){
-    return <Redirect to='/signin' />
-  }  if(character){
+    const {auth, character, characterId} = props;
+    if (character) {
     return(
       <div className="container section character-details">
           <div className='row'>
@@ -26,7 +24,7 @@ const CharacterDetails = (props) => {
           <div className="card z-depth-2">
               <div className="card-content grey darken-3">
                   <label className='red-text text-lighten-1 font14'>Character</label><span
-                  className="card-title grey-text text-lighten-3">{character.name}</span>
+                  className="card-title grey-text text-lighten-3">{character.id}</span>
                   <label className='red-text text-lighten-1 font14'>Class</label><p
                   className='grey-text text-lighten-3 font18'>{character.class}</p>
                   <label className='red-text text-lighten-1 font14'>Race</label><p
@@ -40,7 +38,7 @@ const CharacterDetails = (props) => {
               </div>
               <div className="card-action black">
                   <a className='red-text text-darken-4 font14' href="#">Delete</a>
-                  <Link className='red-text text-darken-4 font14' to={'/create'}>
+                  <Link className='red-text text-darken-4 font14' to={`/update/${characterId}`}>
                       <span>Edit</span>
                   </Link>
               </div>
@@ -61,6 +59,7 @@ const mapStateToProps = (state, ownProps) => {
   const characters = state.firestore.data.characters;
   const character = characters ? characters[id] : null;
   return{
+      characterId: id,
     character: character,
     auth: state.firebase.auth
   }

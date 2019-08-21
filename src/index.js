@@ -17,23 +17,23 @@ import ReactDOM from "react-dom";
 const rrfConfig = {
   userProfile: 'users',
   useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
-}
+};
 
 // Create store with reducers and initial state
-const initialState = {}
-const store = createStore(rootReducer, initialState, applyMiddleware(thunk))
+const initialState = {};
+const store = createStore(rootReducer, initialState, applyMiddleware(thunk));
 
 const rrfProps = {
   firebase,
   config: rrfConfig,
   dispatch: store.dispatch,
   createFirestoreInstance // <- needed if using firestore
-}
+};
 
-
-ReactDOM.render(<Provider store={store}>
+setTimeout(() => ReactDOM.render(<Provider store={store}>
   <ReactReduxFirebaseProvider {...rrfProps}>
     <App/>
   </ReactReduxFirebaseProvider>
-</Provider>, document.getElementById('root'));
+</Provider>, document.getElementById('root')), 200);
+
 

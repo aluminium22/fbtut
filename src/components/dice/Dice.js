@@ -155,7 +155,7 @@ class Dice extends Component {
         return rolls;
     };
     toggleCheatClass = () => {
-        return this.state.isImbrogliando ? ` red-text text-darken-4` : ` red-text text-lighten-1`;
+        return this.state.isImbrogliando ? ` grey-text text-lighten-1` : ` grey-text text-lighten-2`;
     };
     handleChange = (e) => {
         this.setState({[e.target.id]: e.target.value})
@@ -220,14 +220,14 @@ class Dice extends Component {
                 </div>
                 <div className='row flex-center-row' style={{margin: 0 + 'px'}}>
                     <div className='center-align valign-wrapper flex-tag'>
-                        <span className={'center-align font14' + this.toggleCheatClass()}>Modifier</span>
+                        <span className={'center-align font14 red-text text-darken-2'}>Modifier</span>
                         <span className='grey-text text-lighten-3 center-align font14'>
-                            <span className='padding8'> + </span>
+                            <span className={`padding8 ${this.toggleCheatClass()}`}> + </span>
                             {this.state.mod}
                         </span>
                     </div>
                     <div className='center-align valign-wrapper flex-tag'>
-                        <span className={'center-align font14' + this.toggleCheatClass()}>Quantity </span>
+                        <span className={'center-align font14 red-text text-darken-2'}>Quantity </span>
                         <span className='grey-text text-lighten-3 center-align font14'>
                             <span className='padding8'> x </span>
                             <input style={{width: 44, display: 'inline', textAlign: 'center'}}
