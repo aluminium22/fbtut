@@ -5,20 +5,32 @@ import {Redirect} from 'react-router-dom';
 import '../../style/custom.css'
 import {compose} from "redux";
 import {firestoreConnect} from "react-redux-firebase";
+import firebase from "firebase";
 
 class UpdateCharacter extends Component {
     constructor(props) {
         super(props);
         this.state = {
             id: props.characterId,
-            name: props.character.name,
-            class: props.character.class,
-            race: props.character.race,
-            hp: props.character.hp,
-            maxHp: props.character.maxHp,
-            initiative: props.character.initiative,
-            notes: props.character.notes
+            name: '',
+            class: '',
+            race: '',
+            hp: 0,
+            maxHp: 0,
+            initiative: 0,
+            notes: ''
         };
+        firebase.auth().onAuthStateChanged(() =>{
+            this.setState({
+                name: this.props.character.name,
+                class: this.props.character.class,
+                race: this.props.character.race,
+                hp: this.props.character.hp,
+                maxHp: this.props.character.maxHp,
+                initiative: this.props.character.initiative,
+                notes: this.props.character.notes
+            })
+        });
     }
 
     handleChange = (e) => {

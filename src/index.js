@@ -5,7 +5,7 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import { createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
-import {ReactReduxFirebaseProvider} from 'react-redux-firebase';
+import {ReactReduxFirebaseProvider, authIsReady} from 'react-redux-firebase';
 import { createFirestoreInstance} from 'redux-firestore';
 import rootReducer from './store/reducer/rootReducer';
 import 'firebase/firestore';
