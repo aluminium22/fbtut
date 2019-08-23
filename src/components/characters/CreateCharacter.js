@@ -6,14 +6,24 @@ import '../../style/custom.css'
 
 class CreateCharacter extends Component {
   state = {
+    masterId: '',
     name: '',
     class: '',
     race: '',
+    imageLink: '',
     hp: 0,
     maxHp: 0,
     initiative: 0,
     notes: ''
   };
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.character !== this.props.character) {
+      this.setState({
+        masterId: this.props.auth.uid
+      })
+    }
+  }
 
   handleChange = (e) => {
     this.setState({[e.target.id]: e.target.value})
@@ -49,12 +59,16 @@ class CreateCharacter extends Component {
             <input className="grey-text text-lighten-3" type="text" id="race" onChange={this.handleChange}></input>
           </div>
           <div className="input-field">
+            <label htmlFor="imageLink">Image Link</label>
+            <input className="grey-text text-lighten-3" type="text" id="imageLink" onChange={this.handleChange}></input>
+          </div>
+          <div className="input-field">
             <label htmlFor="hp">HP</label>
             <input className="grey-text text-lighten-3" type="number" id="hp" onChange={this.handleChange}></input>
           </div>
           <div className="input-field">
             <label htmlFor="maxHp">maxHP</label>
-            <input className="grey-text text-lighten-3" type="number" id="maxhp" onChange={this.handleChange}></input>
+            <input className="grey-text text-lighten-3" type="number" id="maxHp" onChange={this.handleChange}></input>
           </div>
           <div className="input-field">
             <label htmlFor="initiative">Initiative</label>

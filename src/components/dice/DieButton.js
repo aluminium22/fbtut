@@ -45,7 +45,7 @@ class DieButton extends Component {
                     // Callback fired when the mouseup, touchcancel, or touchend event is triggered.
                 }}
             >
-                <img className='dice-button' alt={this.props.value.number}
+                <img className='dice-button-img' alt={this.props.value.number}
                      src={require(`../dice/images/${this.props.value.image}`)}/>
                 <span className=' text-darken-4 text-bold font-size16'>{this.props.value.number}</span>
             </Repeatable>

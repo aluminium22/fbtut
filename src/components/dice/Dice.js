@@ -293,11 +293,12 @@ class Dice extends Component {
                                         {
                                             ob.row.map((dice, index) => {
                                                 return (
-                                                    <div className='col s3 height44 flex flex-align-items displayGrid'
-                                                         key={dice.number} style={{margin: 0 + 'px'}}>
+                                                    <div
+                                                        className='col s3 height44 flex flex-align-items displayGrid flex-justify-content'
+                                                        key={dice.number} style={{margin: 0 + 'px'}}>
                                                         <DieButton
                                                             value={dice}
-                                                            className="waves-effect waves-red btn-flat grey-text text-lighten-2 height44"
+                                                            className="waves-effect waves-red btn-flat grey-text text-lighten-2 height44 dice-button"
                                                             repeatDelay={300}
                                                             repeatInterval={32}
                                                             onPressDice={this.handlePressDice}
@@ -349,6 +350,5 @@ const mapStateToProps = (state) => {
     }
 };
 export default compose(
-    firestoreConnect(['characters']),
     connect(mapStateToProps)
 )(Dice);

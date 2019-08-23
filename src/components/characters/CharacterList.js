@@ -12,7 +12,7 @@ const CharacterList = ({characters}) => {
         {
           characters && characters.map(character =>{
             return (
-                <li className="collection-item avatar grey darken-3" style={border} key={character.id}>
+                <li className="collection-item grey darken-3" style={border} key={character.id}>
                     <CharacterSummary character={character}/>
                 </li>
             )
@@ -20,6 +20,6 @@ const CharacterList = ({characters}) => {
         }
       </ul>
   )
-}
+};
 
 export default CharacterList;

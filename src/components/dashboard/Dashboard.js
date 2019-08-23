@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 import { compose } from 'redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import {Link, Redirect} from 'react-router-dom';
+import firebase from '../../config/fbConfig'
 
 
 class Dashboard extends Component {
-
   render() {
     const { characters, auth } = this.props;
     if(!auth.uid){
@@ -37,7 +37,7 @@ class Dashboard extends Component {
             </div>
           </div>
           <div className='col s12 m12 l6 center-align hide-on-med-and-down'>
-            <CharacterList characters={characters} />
+            <CharacterList characters={characters} auth={auth}/>
           </div>
         </div>
       </div>
@@ -51,6 +51,9 @@ const mapStateToProps = (state) => {
     auth: state.firebase.auth
 }};
 export default compose(
-  firestoreConnect(['characters']),
+    firestoreConnect((props) => {
+          return [{collection: 'characters', where: [['masterId', '==', firebase.auth().currentUser.uid]]}]
+        }
+    ),
   connect(mapStateToProps)
 )(Dashboard);

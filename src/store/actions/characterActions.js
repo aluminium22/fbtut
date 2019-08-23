@@ -1,14 +1,29 @@
 import firebase from '../../config/fbConfig'
 
-export const updateCharacter = (character) => {
+export const updateCharacter = (character, history) => {
   return (dispatch, getState) => {
     console.log(firebase);
     firebase.firestore().collection('characters').doc(character.id).update({
       ...character
     }).then(() => {
       dispatch({type: 'UPDATE_CHARACTER', character});
+      console.log('this.');
+      history.push("/")
     }).catch((error) => {
       dispatch({type: 'UPDATE_CHARACTER_ERROR', error});
+    });
+  }
+};
+
+export const deleteCharacter = (character, id, history) => {
+  return (dispatch, getState) => {
+    console.log(firebase);
+    firebase.firestore().collection('characters').doc(id).delete().then(() => {
+      console.log('delete');
+      dispatch({type: 'DELETE_CHARACTER', character});
+      history.push("/characters")
+    }).catch((error) => {
+      dispatch({type: 'DELETE_CHARACTER_ERROR', error});
     });
   }
 };

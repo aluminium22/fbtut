@@ -1,11 +1,9 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
-import { createStore, applyMiddleware} from 'redux';
+import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
-import {ReactReduxFirebaseProvider, authIsReady} from 'react-redux-firebase';
+import {ReactReduxFirebaseProvider} from 'react-redux-firebase';
 import { createFirestoreInstance} from 'redux-firestore';
 import rootReducer from './store/reducer/rootReducer';
 import 'firebase/firestore';
@@ -21,7 +19,8 @@ const rrfConfig = {
 
 // Create store with reducers and initial state
 const initialState = {};
-const store = createStore(rootReducer, initialState, applyMiddleware(thunk));
+const store = createStore(rootReducer, initialState, compose(applyMiddleware(thunk),
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
 
 const rrfProps = {
   firebase,
@@ -29,11 +28,12 @@ const rrfProps = {
   dispatch: store.dispatch,
   createFirestoreInstance // <- needed if using firestore
 };
-
-setTimeout(() => ReactDOM.render(<Provider store={store}>
-  <ReactReduxFirebaseProvider {...rrfProps}>
-    <App/>
-  </ReactReduxFirebaseProvider>
-</Provider>, document.getElementById('root')), 200);
+firebase.auth().onAuthStateChanged(() => {
+  ReactDOM.render(<Provider store={store}>
+    <ReactReduxFirebaseProvider {...rrfProps}>
+      <App/>
+    </ReactReduxFirebaseProvider>
+  </Provider>, document.getElementById('root'))
+});
 
 

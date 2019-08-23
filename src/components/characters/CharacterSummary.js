@@ -3,15 +3,31 @@ import {Link} from "react-router-dom";
 
 const CharacterSummary = ({character}) => {
   return (
-      <div className='valign-wrapper flex flex-space-between'>
-          <Link className='flex' to={'/character/' + character.id}>
-              <img src="https://materializecss.com/images/yuna.jpg" alt="" className="circle"/>
-              <span className="title">Title</span>
-              <p>First Line <br></br>
-                  Second Line
-              </p>
+      <div className=' flex flex-space-between flex-align-items'>
+          <Link className='flex flex-align-items' to={'/character/' + character.id}>
+              {character.imageLink &&
+              <img src={character.imageLink} alt="" className="circle-image"/>
+              }
+              {!character.imageLink &&
+              <img src={require(`../characters/images/Tuun-avatar-flat.jpg`)} alt="" className="circle-image"/>
+              }
+              <div className="flex-col padding-left16 flex-justify-left">
+                  <span className="title">
+                      {character.name}
+                  </span>
+                  {character.class &&
+                  <span className="text-grey text-lighten-2">
+                          Class: {character.class}
+                      </span>
+                  }
+                  {character.hp &&
+                  <span>
+                          HP: {character.hp}
+                      </span>
+                  }
+              </div>
           </Link>
-          <a href="#!"><i className="material-icons">add</i></a>
+          <a href="#!"><i className="material-icons ">add</i></a>
       </div>
   )
 };

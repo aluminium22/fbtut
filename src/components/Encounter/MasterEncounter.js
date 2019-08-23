@@ -3,26 +3,32 @@ import CharacterList from "../characters/CharacterList";
 import { connect } from 'react-redux';
 import { compose } from 'redux'
 import { firestoreConnect } from 'react-redux-firebase'
-import { Redirect} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
+import firebase from '../../config/fbConfig'
 
-
-class MasterEncounter extends Component {
-    render() {
-        const { characters, auth } = this.props;
-        if(!auth.uid){
-            return <Redirect to='/signin' />
+const Characters = (props) => {
+    const {characters, auth} = props;
+    if (characters) {
+        if (!auth.uid) {
+            return <Redirect to='/signin'/>
         }
-        return(
+        return (
             <div className='dashboard container'>
                 <div className='row'>
                     <div className='col s12 center-align'>
-                        <CharacterList characters={characters} />
+                        <CharacterList characters={characters}/>
                     </div>
                 </div>
             </div>
         )
+    } else {
+        return (
+            <div className="container center">
+                <p> Loading </p>
+            </div>
+        )
     }
-}
+};
 
 const mapStateToProps = (state) => {
     return{
@@ -30,6 +36,9 @@ const mapStateToProps = (state) => {
         auth: state.firebase.auth
     }};
 export default compose(
-    firestoreConnect(['characters']),
-    connect(mapStateToProps)
-)(MasterEncounter);
+    connect(mapStateToProps),
+    firestoreConnect((props) => {
+            return [{collection: 'characters', where: [['masterId', '==', firebase.auth().currentUser.uid]]}]
+        }
+    )
+)(Characters);

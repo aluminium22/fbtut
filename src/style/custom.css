@@ -1,6 +1,6 @@
 /* label color */
 .input-field label {
-    color: #eee !important;
+    color: #995050 !important;
 }
 /* label focus color */
 .input-field input[type=text]:focus + label {
@@ -49,12 +49,30 @@
     padding: 8px;
 }
 
+.flex-justify-left {
+    justify-content: flex-start;
+}
+
+.flex-justify-left span {
+    justify-content: flex-start;
+}
 .flex-space-between {
     justify-content: space-between !important;
 }
 
+.flex-col span {
+    display: flex;
+}
+
+.padding-left16 {
+    padding-left: 16px;
+}
 .flex-align-items {
     align-items: center !important;
+}
+
+.flex-justify-content {
+    justify-content: center !important;
 }
 
 .displayGrid {
@@ -62,6 +80,7 @@
 }
 
 .flex {
+    display: flex;
     flex: 1;
 }
 
@@ -89,7 +108,7 @@
     border-radius: 4%;
     position: absolute;
     width: 95%;
-    background: #d32f2f;
+    background: #e53935;
     z-index: 200;
     margin-top: -140px;
     left: 0;
@@ -97,4 +116,24 @@
     margin-left: auto;
     margin-right: auto;
     font-weight: bold;
+}
+
+.dice-button {
+    line-height: 2.8;
+}
+
+a {
+    color: #bdbdbd;
+}
+
+span.title {
+    color: #eeeeee;
+}
+
+.circle-image {
+    border-radius: 50%;
+    max-height: 55px;
+    height: auto;
+    width: 55px;
+    display: inline-block;
 }
