@@ -8,7 +8,7 @@ import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import CreateCharacter from "./components/characters/CreateCharacter";
 import Characters from "./components/characters/Characters";
-import MasterEncounter from "./components/Encounter/MasterEncounter";
+import StageEncounter from "./components/Encounter/StageEncounter";
 import JoinMaster from "./components/characters/JoinMaster";
 import Dice from "./components/dice/Dice";
 import UpdateCharacter from "./components/characters/UpdateCharacter";
@@ -26,7 +26,7 @@ class App extends Component {
             <Route path='/characters' component={Characters}/>
               <Route path='/join-master' component={JoinMaster}/>
             <Route path='/master' component={Master}/>
-            <Route path='/master-encounter' component={MasterEncounter}/>
+              <Route path='/stage-encounter' component={StageEncounter}/>
             <Route path='/signin' component={SignIn}/>
             <Route path='/signup' component={SignUp}/>
             <Route path='/create' component={CreateCharacter}/>

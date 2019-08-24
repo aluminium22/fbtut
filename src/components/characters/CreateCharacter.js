@@ -6,7 +6,7 @@ import '../../style/custom.css'
 
 class CreateCharacter extends Component {
   state = {
-    masterId: '',
+    encounterId: '',
     name: '',
     class: '',
     race: '',
@@ -20,7 +20,7 @@ class CreateCharacter extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.character !== this.props.character) {
       this.setState({
-        masterId: this.props.auth.uid
+        encounterId: this.props.encounterId
       })
     }
   }
@@ -31,6 +31,7 @@ class CreateCharacter extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    console.log('state to submit ', this.state);
     // console.log(this.state);
     this.props.createCharacter(this.state);
   };

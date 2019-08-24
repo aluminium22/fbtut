@@ -149,7 +149,7 @@ const mapStateToProps = (state, ownProps) => {
 
 export default compose(
     firestoreConnect((props) => {
-            return [{collection: 'characters', where: [['masterId', '==', firebase.auth().currentUser.uid]]}]
+        return [{collection: 'characters', where: [['userId', '==', firebase.auth().currentUser.uid]]}]
         }
     ),
     connect(mapStateToProps, mapDispatchtoProps)

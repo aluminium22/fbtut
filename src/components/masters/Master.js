@@ -9,7 +9,7 @@ const Master = () => {
                 <div className='col s12 m12 l6 center-align'>
                     <div>
                         <ul>
-                            <Link className="waves-effect red darken-4 btn-large" to={'/master-encounter'}>
+                            <Link className="waves-effect red darken-4 btn-large" to={'/stage-encounter'}>
                                 <span> Add to Encounter</span>
                             </Link>
                         </ul>

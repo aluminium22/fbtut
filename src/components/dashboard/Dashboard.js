@@ -45,6 +45,15 @@ class Dashboard extends Component {
   }
 }
 
+const hasUser = () => {
+  if (firebase.auth().currentUser) {
+    return ({collection: 'characters', where: [['userId', '==', firebase.auth().currentUser.uid]]})
+  } else {
+    return 'characters';
+  }
+
+};
+
 const mapStateToProps = (state) => {
   return{
   characters: state.firestore.ordered.characters,
@@ -52,7 +61,7 @@ const mapStateToProps = (state) => {
 }};
 export default compose(
     firestoreConnect((props) => {
-          return [{collection: 'characters', where: [['masterId', '==', firebase.auth().currentUser.uid]]}]
+      return [hasUser()]
         }
     ),
   connect(mapStateToProps)

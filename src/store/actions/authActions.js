@@ -27,21 +27,29 @@ export const signOut = () => {
 
 export const signUp = (newUser) => {
   return ( dispatch, getState) => {
-    firebase.auth().createUserWithEmailAndPassword(
-      newUser.email,
-      newUser.password
-    ).then((resp) => {
-      console.log('resp', resp);
-      return firebase.firestore().collection('users').doc(resp.user.uid).set({
-        firstName: newUser.firstName,
-        lastName: newUser.lastName,
-        email: newUser.email,
-        initials: newUser.firstName[0] + newUser.lastName[0]
+    firebase.firestore().collection('encounters').add(
+        {
+          sharedRoll: null,
+          turn: null,
+        }
+    ).then((docRef) => {
+      firebase.auth().createUserWithEmailAndPassword(
+          newUser.email,
+          newUser.password
+      ).then((resp) => {
+        console.log('resp', resp);
+        return firebase.firestore().collection('users').doc(resp.user.uid).set({
+          firstName: newUser.firstName,
+          lastName: newUser.lastName,
+          email: newUser.email,
+          encounterId: docRef.id,
+          initials: newUser.firstName[0] + newUser.lastName[0]
+        })
+      }).then(() => {
+        dispatch({type: 'SIGNUP_SUCCESS'})
+      }).catch(err => {
+        dispatch({type: 'SIGNUP_ERROR', err})
       })
-    }).then(() => {
-      dispatch({type: 'SIGNUP_SUCCESS'})
-    }).catch( err => {
-      dispatch({ type: 'SIGNUP_ERROR', err})
     })
   }
 };

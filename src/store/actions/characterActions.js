@@ -7,7 +7,7 @@ export const updateCharacter = (character, history) => {
       ...character
     }).then(() => {
       dispatch({type: 'UPDATE_CHARACTER', character});
-      console.log('this.');
+      console.log('this.', character);
       history.push("/")
     }).catch((error) => {
       dispatch({type: 'UPDATE_CHARACTER_ERROR', error});
@@ -36,7 +36,6 @@ export const createCharacter = (character) => {
     console.log(firebase);
     firebase.firestore().collection('characters').add({
       ...character,
-      masterId: user.uid,
       userId: user.uid,
       createdAt: new Date()
     }).then(() => {
