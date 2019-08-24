@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CharacterList from "../characters/CharacterList";
+import CharacterStageList from "../characters/CharacterStageList";
 import { connect } from 'react-redux';
 import { compose } from 'redux'
 import { firestoreConnect } from 'react-redux-firebase'
@@ -27,7 +27,7 @@ class StageEncounter extends Component {
                 <div className='dashboard container'>
                     <div className='row'>
                         <div className='col s12 center-align'>
-                            <CharacterList onPress={this.updateRemoveEncounterCharacter} characters={characters}/>
+                            <CharacterStageList onPress={this.updateRemoveEncounterCharacter} characters={characters}/>
                         </div>
                     </div>
                 </div>
@@ -45,7 +45,7 @@ class StageEncounter extends Component {
 
 const hasUser = () => {
     if (firebase.auth().currentUser) {
-        return ({collection: 'characters', where: [['userId', '==', firebase.auth().currentUser.uid]]})
+        return ({collection: 'characters', where: [['masterId', '==', firebase.auth().currentUser.uid]]})
     } else {
         return 'characters';
     }

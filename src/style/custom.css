@@ -137,3 +137,7 @@ span.title {
     width: 55px;
     display: inline-block;
 }
+
+.text-button-grey {
+    color: #9e9e9e;
+}

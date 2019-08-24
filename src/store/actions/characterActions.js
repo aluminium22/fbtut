@@ -36,12 +36,36 @@ export const createCharacter = (character) => {
     console.log(firebase);
     firebase.firestore().collection('characters').add({
       ...character,
+      masterId: user.uid,
       userId: user.uid,
       createdAt: new Date()
     }).then(() => {
       dispatch({ type: 'CREATE_CHARACTER', character });
     }).catch((error) => {
       dispatch({ type: 'CREATE_CHARACTER_ERROR', error });
+    });
+  }
+};
+
+export const joinMaster = (email, characterId, character) => {
+  console.log('email', email);
+  return (dispatch, getState) => {
+    firebase.firestore().collection("users").where('email', '==', email
+    ).get()
+        .then(function (querySnapshot) {
+          querySnapshot.forEach(function (doc) {
+            // doc.data() is never undefined for query doc snapshots
+            firebase.firestore().collection('characters').doc(characterId).update({
+              ...character,
+              masterId: doc.id
+            }).then(() => {
+              dispatch({type: 'UPDATE_CHARACTER', character});
+              console.log('this.', character);
+            })
+          });
+        }).catch((error) => {
+      console.log('failed');
+      dispatch({type: 'UPDATE_CHARACTER_ERROR', error});
     });
   }
 };

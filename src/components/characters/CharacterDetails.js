@@ -1,16 +1,28 @@
 import React, {Component} from 'react';
 import {compose} from "redux";
 import {firestoreConnect} from "react-redux-firebase";
-import {createCharacter, deleteCharacter} from '../../store/actions/characterActions';
+import {joinMaster, deleteCharacter} from '../../store/actions/characterActions';
 import connect from "react-redux/es/connect/connect";
 import {Link, Redirect} from 'react-router-dom';
 import firebase from '../../config/fbConfig'
 
 class CharacterDetails extends Component {
+
+    state = {
+        masterEmail: '',
+    };
+    handleChange = (e) => {
+        this.setState({[e.target.id]: e.target.value})
+    };
+
     handleDelete = (e) => {
         e.preventDefault();
         // console.log(this.state);
         this.props.deleteCharacter(this.props.character, this.props.characterId, this.props.history);
+    };
+    handleMasterJoin = (e) => {
+        e.preventDefault();
+        this.props.joinMaster(this.state.masterEmail, this.props.characterId, this.props.character)
     };
 
     render() {
@@ -28,9 +40,15 @@ class CharacterDetails extends Component {
                             </Link>
                         </div>
                         <div className='col s12 m6 center-align'>
-                            <Link className="waves-effect red darken-4 btn-large" to={'/join-master'}>
-                                <span>Join Master</span>
-                            </Link>
+                            <div className="input-field">
+                                <label htmlFor="initiative">Assign Master (GM Email)</label>
+                                <input className={`grey-text text-lighten-3 scale-transition`}
+                                       value={this.state.masterEmail} type="text" id="masterEmail"
+                                       onChange={this.handleChange}/>
+                                <a onClick={this.handleMasterJoin} className="waves-effect red darken-4 btn-small">
+                                    <span>Submit</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                     <div className="card z-depth-2">
@@ -69,7 +87,9 @@ class CharacterDetails extends Component {
 
 const mapDispatchtoProps = (dispatch) => {
     return {
-        deleteCharacter: (character, id, history) => dispatch(deleteCharacter(character, id, history))
+        deleteCharacter: (character, id, history) => dispatch(deleteCharacter(character, id, history)),
+        joinMaster: (email, characterId, character) => dispatch(joinMaster(email, characterId, character))
+
     }
 };
 

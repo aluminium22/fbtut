@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 
-class CharacterSummary extends Component {
+class CharacterStage extends Component {
     constructor(props) {
         super(props);
         this.addEncounterCharacter = this.addEncounterCharacter.bind(this);
@@ -36,15 +36,23 @@ class CharacterSummary extends Component {
                       </span>
                         }
                         {this.props.character.hp &&
-                        <span>
-                          HP: {this.props.character.hp}
-                      </span>
+                        <div>
+                            <span>
+                              HP: {this.props.character.hp}/{this.props.character.maxHp}
+                          </span>
+                        </div>
                         }
                     </div>
                 </Link>
+                {!this.props.character.encounterId &&
+                <a onClick={this.addEncounterCharacter}><i className="material-icons ">add</i></a>
+                }
+                {this.props.character.encounterId &&
+                <a onClick={this.removeEncounterCharacter}><i className="material-icons ">remove</i></a>
+                }
             </div>
         )
     }
 }
 
-export default CharacterSummary;
+export default CharacterStage;

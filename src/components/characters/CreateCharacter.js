@@ -17,13 +17,6 @@ class CreateCharacter extends Component {
     notes: ''
   };
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.character !== this.props.character) {
-      this.setState({
-        encounterId: this.props.encounterId
-      })
-    }
-  }
 
   handleChange = (e) => {
     this.setState({[e.target.id]: e.target.value})
