@@ -5,9 +5,20 @@ import { compose } from 'redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import {Link, Redirect} from 'react-router-dom';
 import firebase from '../../config/fbConfig'
+import {detachMaster} from "../../store/actions/characterActions";
+import {removeEncounterCharacter} from "../../store/actions/encounterAction";
 
 
 class Characters extends Component {
+
+    detach = (character) => {
+        this.props.detachMaster(character)
+    };
+
+    removeEncounter = (character, encounterId) => {
+        this.props.removeEncounterCharacter(character, encounterId);
+    };
+
     render() {
         const { characters, auth } = this.props;
         if (characters) {
@@ -17,15 +28,19 @@ class Characters extends Component {
             return (
                 <div className='dashboard container'>
                     <div className='row'>
-                        <div className='col s5 offset-s7'>
-                            <Link className="waves-effect red darken-4 btn-large" to={'/create'}>
+                        <div className='col s7'>
+                            <span className='page-header'>Your Characters</span>
+                        </div>
+                        <div className='col s5'>
+                            <Link className="waves-effect red darken-4 btn-large margin-top16" to={'/create'}>
                                 <span>New Character</span>
                             </Link>
                         </div>
                     </div>
                     <div className='row'>
                         <div className='col s12 center-align'>
-                            <CharacterList characters={characters}/>
+                            <CharacterList detachMaster={this.detach} removeEncounter={this.removeEncounter}
+                                           characters={characters}/>
                         </div>
                     </div>
                 </div>
@@ -40,6 +55,13 @@ class Characters extends Component {
     }
 }
 
+const mapDispatchtoProps = (dispatch) => {
+    return {
+        detachMaster: (character) => dispatch(detachMaster(character)),
+        removeEncounterCharacter: (character, encounterId) => dispatch(removeEncounterCharacter(character, encounterId))
+    }
+};
+
 const mapStateToProps = (state) => {
     return{
         characters: state.firestore.ordered.characters,
@@ -50,5 +72,5 @@ export default compose(
         return [{collection: 'characters', where: [['userId', '==', firebase.auth().currentUser.uid]]}]
         }
     ),
-    connect(mapStateToProps)
+    connect(mapStateToProps, mapDispatchtoProps)
 )(Characters);

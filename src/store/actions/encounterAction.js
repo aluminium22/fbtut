@@ -27,7 +27,7 @@ export const updateEncounterCharacter = (character) => {
         })
     }
 };
-export const removeEncounterCharacter = (character) => {
+export const removeEncounterCharacter = (character, encounterId) => {
     return (dispatch, getState) => {
         const userDoc = firebase.firestore().collection('users').doc(character.userId);
         userDoc.get().then((doc) => {
@@ -38,7 +38,10 @@ export const removeEncounterCharacter = (character) => {
             } else {
                 const user = doc.data();
                 console.log('character id', character.id);
-                const encounterDoc = firebase.firestore().collection('encounters').doc(user.encounterId);
+                if (!encounterId) {
+                    encounterId = user.encounterId
+                }
+                const encounterDoc = firebase.firestore().collection('encounters').doc(encounterId);
                 encounterDoc.get().then((eDoc) => {
                     const encounter = eDoc.data();
                     firebase.firestore().collection(`encounters`).doc(user.encounterId).update({

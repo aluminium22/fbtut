@@ -69,3 +69,19 @@ export const joinMaster = (email, characterId, character) => {
     });
   }
 };
+
+export const detachMaster = (character) => {
+  return (dispatch, getState) => {
+    let user = firebase.auth().currentUser;
+    firebase.firestore().collection('characters').doc(character.id).update({
+      ...character,
+      masterId: user.uid,
+    }).then(() => {
+      dispatch({type: 'UPDATE_CHARACTER', character});
+      console.log('this.', character);
+    }).catch((error) => {
+      console.log('failed');
+      dispatch({type: 'UPDATE_CHARACTER_ERROR', error});
+    });
+  }
+};

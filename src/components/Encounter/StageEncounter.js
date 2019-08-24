@@ -25,6 +25,7 @@ class StageEncounter extends Component {
             }
             return (
                 <div className='dashboard container'>
+                    <span className='page-header'>Add To Your Encounter</span>
                     <div className='row'>
                         <div className='col s12 center-align'>
                             <CharacterStageList onPress={this.updateRemoveEncounterCharacter} characters={characters}/>

@@ -26,11 +26,11 @@ class Dashboard extends Component {
               </ul>
               <ul>
                 <Link className="waves-effect red darken-4 btn-large hide-on-large-only" to={'/characters'}>
-                  <span>Characters</span>
+                  <span>Your Characters</span>
                 </Link>
               </ul>
               <ul>
-                <Link className="waves-effect red darken-4 btn-large" to={'/master'}>
+                <Link className="waves-effect red darken-4 btn-large" to={'/dice'}>
                   <span>Dice</span>
                 </Link>
               </ul>

@@ -1,26 +1,43 @@
 import React, {Component} from 'react';
 import CharacterSummary from "./CharacterSummary";
 import { Link } from 'react-router-dom';
+import {removeEncounterCharacter} from "../../store/actions/encounterAction";
 
 const border = {
-    border: "1px solid #000000cc"
+    border: "1px solid #00000059"
 };
 
 class CharacterList extends Component {
     render() {
-        return (
-            <ul className="collection grey darken-3" style={border}>
-                {
-                    this.props.characters && this.props.characters.map(character => {
-                        return (
-                            <li className="collection-item grey darken-3" style={border} key={character.id}>
-                                <CharacterSummary onPress={this.props.onPress} character={character}/>
-                            </li>
-                        )
-                    })
-                }
-            </ul>
-        )
+        if (this.props.characters) {
+            if (this.props.characters.length) {
+                return (
+                    <ul className="collection ul-border" style={border}>
+                        {
+                            this.props.characters && this.props.characters.map(character => {
+                                return (
+                                    <li className="collection-item z-depth-2 margin8 grey darken-3" style={border}
+                                        key={character.id}>
+                                        <CharacterSummary onPress={this.props.onPress}
+                                                          detachMaster={this.props.detachMaster}
+                                                          removeEncounter={this.props.removeEncounter}
+                                                          character={character}/>
+                                    </li>
+                                )
+                            })
+                        }
+                    </ul>
+                )
+            } else {
+                return (
+                    <div className="container">
+                        <h5 className='grey-text text-darken-1'>Create a New Character</h5>
+                    </div>
+                );
+            }
+        } else {
+            return null;
+        }
     }
 }
 

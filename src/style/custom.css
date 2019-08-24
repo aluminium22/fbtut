@@ -120,6 +120,10 @@
 
 .dice-button {
     line-height: 2.8;
+    width: 100%;
+    width: -moz-available; /* WebKit-based browsers will ignore this. */
+    width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
+    width: fill-available;
 }
 
 a {
@@ -136,8 +140,59 @@ span.title {
     height: auto;
     width: 55px;
     display: inline-block;
+    margin: 4px;
+}
+
+.text-button-red {
+    font-weight: bold;
+    color: #B71C1C;
 }
 
 .text-button-grey {
-    color: #9e9e9e;
+    font-weight: bold;
+    color: #7d7d7d;
+}
+
+.stripe-background {
+    background: repeating-linear-gradient(
+            -55deg,
+            #424242,
+            #424242 10px,
+            #333 10px,
+            #333 20px
+    );
+}
+
+.margin8 {
+    margin: 8px !important;
+}
+
+.card {
+    background-color: #212121;
+}
+
+li.collection-item.z-depth-2.margin8.grey.darken-3 {
+    border-radius: 20px;
+}
+
+.ul-border {
+    border: "1px solid #00000059" !important;
+    border-radius: 20px;
+}
+
+.page-header {
+    margin: 16px 32px 16px 32px;
+    color: #000000b3;
+    font-size: 1.8rem;
+    line-height: 110%;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.margin-top16 {
+    margin-top: 16px;
+}
+
+.display-block {
+    display: block;
 }

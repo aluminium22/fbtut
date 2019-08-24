@@ -40,6 +40,7 @@ class CharacterDetails extends Component {
                             </Link>
                         </div>
                         <div className='col s12 m6 center-align'>
+                            {character.masterId === character.userId &&
                             <div className="input-field">
                                 <label htmlFor="initiative">Assign Master (GM Email)</label>
                                 <input className={`grey-text text-lighten-3 scale-transition`}
@@ -49,6 +50,7 @@ class CharacterDetails extends Component {
                                     <span>Submit</span>
                                 </a>
                             </div>
+                            }
                         </div>
                     </div>
                     <div className="card z-depth-2">
