@@ -23,20 +23,24 @@ class Encounter extends Component {
     }
 
     calculateTurn = (encounter) => {
+        console.log('in calculate turn');
+        if (!encounter.ind) {
+            encounter.ind = 0;
+        }
         if (encounter.turn) {
-            encounter.index = 0;
+            console.log('first');
             encounter.turn = encounter.characters[0];
             this.props.updateEncounter(encounter)
         } else {
-            if (encounter.index) {
-                if (encounter.index !== encounter.characters.length - 1) {
-                    encounter.turn = encounter.characters[encounter + 1];
-                    this.props.updateEncounter(encounter)
-                } else {
-                    encounter.index = 0;
-                    encounter.turn = encounter.characters[0];
-                    this.props.updateEncounter(encounter)
-                }
+            console.log('2 ');
+            if (encounter.ind !== encounter.characters.length - 1) {
+                encounter.turn = encounter.characters[encounter + 1];
+                this.props.updateEncounter(encounter)
+            } else {
+                console.log('3 ');
+                encounter.ind = 0;
+                encounter.turn = encounter.characters[0];
+                this.props.updateEncounter(encounter)
             }
         }
     };
@@ -44,7 +48,7 @@ class Encounter extends Component {
     render() {
         const {encounter, auth} = this.props;
         if (encounter && encounter.characters) {
-            const sortEncounter = this.sortCharacter(encounter.characters);
+            encounter.characters = this.sortCharacter(encounter.characters);
             console.log('encounter', encounter);
             if (!auth.uid) {
                 return <Redirect to='/signin'/>
@@ -54,18 +58,18 @@ class Encounter extends Component {
                     <div className='row'>
                         <div className='col s12'>
                             <EncounterCharacterList onPress={this.handleCharacterPress}
-                                                    characters={sortEncounter}/>
+                                                    characters={encounter.characters}/>
                         </div>
                     </div>
                     {!encounter.turn &&
                     <div>
-                        <a onClick={this.calculateTurn(sortEncounter)}
+                        <a onClick={() => this.calculateTurn(encounter)}
                            className='waves-effect waves-light red btn'>Start</a>
                     </div>
                     }
                     {encounter.turn &&
                     <div>
-                        <a onClick={this.calculateTurn(sortEncounter)}
+                        <a onClick={this.calculateTurn(encounter)}
                            className='waves-effect waves-light red btn'>Next</a>
                     </div>
                     }
