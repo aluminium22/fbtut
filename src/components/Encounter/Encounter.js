@@ -4,6 +4,8 @@ import connect from "react-redux/es/connect/connect";
 import {compose} from 'redux'
 import {firestoreConnect} from 'react-redux-firebase'
 import {Link, Redirect} from 'react-router-dom';
+import {updateEncounter} from "../../store/actions/encounterAction";
+
 import firebase from '../../config/fbConfig'
 
 class Encounter extends Component {
@@ -16,12 +18,34 @@ class Encounter extends Component {
         }
     };
 
+    sortCharacter(characters) {
+        return characters.sort((a, b) => (parseFloat(a.initiative) > parseFloat(b.initiative)) ? -1 : 1)
+    }
+
+    calculateTurn = (encounter) => {
+        if (encounter.turn) {
+            encounter.index = 0;
+            encounter.turn = encounter.characters[0];
+            this.props.updateEncounter(encounter)
+        } else {
+            if (encounter.index) {
+                if (encounter.index !== encounter.characters.length - 1) {
+                    encounter.turn = encounter.characters[encounter + 1];
+                    this.props.updateEncounter(encounter)
+                } else {
+                    encounter.index = 0;
+                    encounter.turn = encounter.characters[0];
+                    this.props.updateEncounter(encounter)
+                }
+            }
+        }
+    };
+
     render() {
         const {encounter, auth} = this.props;
-        console.log('encounter', encounter);
         if (encounter && encounter.characters) {
-            console.log('encounter', encounter.characters);
-            const characters = encounter.characters;
+            const sortEncounter = this.sortCharacter(encounter.characters);
+            console.log('encounter', encounter);
             if (!auth.uid) {
                 return <Redirect to='/signin'/>
             }
@@ -30,9 +54,21 @@ class Encounter extends Component {
                     <div className='row'>
                         <div className='col s12'>
                             <EncounterCharacterList onPress={this.handleCharacterPress}
-                                                    characters={encounter.characters}/>
+                                                    characters={sortEncounter}/>
                         </div>
                     </div>
+                    {!encounter.turn &&
+                    <div>
+                        <a onClick={this.calculateTurn(sortEncounter)}
+                           className='waves-effect waves-light red btn'>Start</a>
+                    </div>
+                    }
+                    {encounter.turn &&
+                    <div>
+                        <a onClick={this.calculateTurn(sortEncounter)}
+                           className='waves-effect waves-light red btn'>Next</a>
+                    </div>
+                    }
                 </div>
             )
         } else {
@@ -46,21 +82,11 @@ class Encounter extends Component {
 }
 
 
-const hasUser = (id) => {
-    if (firebase.auth().currentUser) {
-        console.log('id--- ', id);
-        return ({collection: 'encounters', where: [['encounterId', '==', id]]})
-    } else {
-        return null;
+const mapDispatchtoProps = (dispatch) => {
+    return {
+        updateEncounter: (encounter) => dispatch(updateEncounter(encounter)),
     }
-
 };
-// const mapDispatchtoProps = (dispatch) => {
-//     return {
-//         updateEncounterCharacter: (character) => dispatch(updateEncounterCharacter(character)),
-//         removeEncounterCharacter: (character) => dispatch(removeEncounterCharacter(character))
-//     }
-// };
 
 
 const mapStateToProps = (state, ownProps) => {
@@ -74,7 +100,7 @@ const mapStateToProps = (state, ownProps) => {
     }
 };
 export default compose(
-    connect(mapStateToProps),
+    connect(mapStateToProps, mapDispatchtoProps),
     firestoreConnect((props) => {
             return [`encounters/${props.encounterId}`]
         }

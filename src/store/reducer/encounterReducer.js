@@ -8,6 +8,9 @@ const initState = {
 
 const encounterReducer = (state = initState, action) => {
     switch (action.type) {
+        case 'UPDATE_ENCOUNTER':
+            console.log('update enc', action.character);
+            return state;
         case 'UPDATE_ENCOUNTER_CHARACTER':
             console.log('update enc', action.character);
             return state;

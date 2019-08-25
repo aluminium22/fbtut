@@ -62,3 +62,17 @@ export const removeEncounterCharacter = (character, encounterId) => {
         })
     }
 };
+
+export const updateEncounter = (encounter) => {
+    return (dispatch, getState) => {
+        firebase.firestore().collection('encounters').doc(encounter.id).update({
+            encounter: encounter
+        }).then(() => {
+            dispatch({type: 'UPDATE_ENCOUNTER', encounter});
+            console.log('encounter', encounter);
+        }).catch((error) => {
+            dispatch({type: 'UPDATE_ENCOUNTER_ERROR', error});
+        });
+
+    }
+};

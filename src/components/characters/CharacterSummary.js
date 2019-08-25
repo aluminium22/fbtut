@@ -47,7 +47,6 @@ class CharacterSummary extends Component {
                         }
                     </div>
                 </Link>
-                {!(this.props.character.masterId === this.props.character.userId) &&
                 <div className='flex-col'>
                     {this.props.character.encounterId &&
                     <Link className={`waves-effect waves-red btn-flat display-block text-button-red`}
@@ -57,12 +56,11 @@ class CharacterSummary extends Component {
                     <a className={`waves-effect waves-red btn-flat text-button-grey display-block`}
                        onClick={this.removeEncounter}>Leave</a>
                     }
-                    {!this.props.character.encounterId &&
+                    {(this.props.character.userId !== this.props.character.masterId) && (this.props.encounterId) &&
                     <a className={`waves-effect waves-red btn-flat text-button-grey display-block`}
                        onClick={this.detachMaster}>Rescind</a>
                     }
                 </div>
-                }
             </div>
         )
     }

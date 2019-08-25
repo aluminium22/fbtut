@@ -66,7 +66,7 @@ class CreateCharacter extends Component {
           </div>
           <div className="input-field">
             <label htmlFor="initiative">Initiative</label>
-            <input className="grey-text text-lighten-3" type="number" id="initiative" min="0" max="15"
+            <input className="grey-text text-lighten-3" type="number" id="initiative" min="0" max="30"
                    onChange={this.handleChange}></input>
           </div>
           <div className="input-field">
