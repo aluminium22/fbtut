@@ -12,6 +12,7 @@ import StageEncounter from "./components/Encounter/StageEncounter";
 import JoinMaster from "./components/characters/JoinMaster";
 import Dice from "./components/dice/Dice";
 import UpdateCharacter from "./components/characters/UpdateCharacter";
+import Encounter from "./components/Encounter/Encounter";
 
 
 class App extends Component {
@@ -23,6 +24,7 @@ class App extends Component {
           <Switch>
             <Route exact path='/' component={Dashboard}/>
             <Route path='/character/:id' component={CharacterDetails}/>
+              <Route path='/encounter/:id' component={Encounter}/>
             <Route path='/characters' component={Characters}/>
               <Route path='/join-master' component={JoinMaster}/>
             <Route path='/master' component={Master}/>

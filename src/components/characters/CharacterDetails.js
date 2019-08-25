@@ -40,7 +40,7 @@ class CharacterDetails extends Component {
                             </Link>
                         </div>
                         <div className='col s12 m6 center-align'>
-                            {character.masterId === character.userId &&
+                            {(character.masterId === character.userId) && (!character.encounterId) &&
                             <div className="input-field">
                                 <label htmlFor="initiative">Assign Master (GM Email)</label>
                                 <input className={`grey-text text-lighten-3 scale-transition`}

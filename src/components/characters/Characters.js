@@ -55,6 +55,15 @@ class Characters extends Component {
     }
 }
 
+const hasUser = () => {
+    if (firebase.auth().currentUser) {
+        return ({collection: 'characters', where: [['userId', '==', firebase.auth().currentUser.uid]]})
+    } else {
+        return 'characters';
+    }
+
+};
+
 const mapDispatchtoProps = (dispatch) => {
     return {
         detachMaster: (character) => dispatch(detachMaster(character)),
@@ -69,7 +78,7 @@ const mapStateToProps = (state) => {
     }};
 export default compose(
     firestoreConnect((props) => {
-        return [{collection: 'characters', where: [['userId', '==', firebase.auth().currentUser.uid]]}]
+        return [hasUser()]
         }
     ),
     connect(mapStateToProps, mapDispatchtoProps)

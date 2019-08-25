@@ -51,7 +51,7 @@ class CharacterSummary extends Component {
                 <div className='flex-col'>
                     {this.props.character.encounterId &&
                     <Link className={`waves-effect waves-red btn-flat display-block text-button-red`}
-                          to={'/master'}>View</Link>
+                          to={`/encounter/${this.props.character.encounterId}`}>View</Link>
                     }
                     {this.props.character.encounterId &&
                     <a className={`waves-effect waves-red btn-flat text-button-grey display-block`}

@@ -196,3 +196,26 @@ li.collection-item.z-depth-2.margin8.grey.darken-3 {
 .display-block {
     display: block;
 }
+
+.display-inline-block {
+    display: inline-block;
+}
+
+.width80 {
+    width: 80%;
+}
+
+.width20 {
+    width: 20%;
+}
+
+.font60 {
+    font-size: 60px;
+    line-height: 0.8;
+}
+
+.roll-container {
+    justify-content: center;
+    flex-direction: row;
+    text-align: center;
+}

@@ -3,7 +3,7 @@ import firebase from '../../config/fbConfig'
 export const updateEncounterCharacter = (character) => {
     return (dispatch, getState) => {
         // this.db.doc(`encounters/${id}`).update({character:$character});
-        const userDoc = firebase.firestore().collection('users').doc(character.userId);
+        const userDoc = firebase.firestore().collection('users').doc(character.masterId);
         userDoc.get().then((doc) => {
             if (!doc.exists) {
                 console.log('error no doc');
