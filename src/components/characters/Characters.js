@@ -59,7 +59,7 @@ const hasUser = () => {
     if (firebase.auth().currentUser) {
         return ({collection: 'characters', where: [['userId', '==', firebase.auth().currentUser.uid]]})
     } else {
-        return 'characters';
+        return '';
     }
 
 };

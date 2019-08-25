@@ -11,16 +11,17 @@ export const updateEncounterCharacter = (character) => {
                 dispatch({type: 'UPDATE_ENCOUNTER_ERROR', error});
             } else {
                 const user = doc.data();
-                firebase.firestore().collection(`encounters`).doc(user.encounterId).update({characters: firebase.firestore.FieldValue.arrayUnion(character)})
-                    .then(() => {
-                        firebase.firestore().collection('characters').doc(character.id).update({
-                            ...character,
-                            encounterId: `${user.encounterId}`
-                        }).then(() => {
-                            dispatch({type: 'UPDATE_ENCOUNTER_CHARACTER', character});
-                            console.log('this.', character);
-                        })
-                    }).catch((error) => {
+                firebase.firestore().collection(`encounters/${user.encounterId}/characters`).doc(character.id).set({
+                    ...character,
+                    encounterId: `${user.encounterId}`
+                }).then(() => {
+                    firebase.firestore().collection(`characters`).doc(character.id).update({
+                        encounterId: `${user.encounterId}`
+                    }).then(() => {
+                        dispatch({type: 'UPDATE_ENCOUNTER_CHARACTER', character});
+                        console.log('this.', character);
+                    })
+                }).catch((error) => {
                     dispatch({type: 'UPDATE_ENCOUNTER_ERROR', error});
                 });
             }
@@ -29,7 +30,7 @@ export const updateEncounterCharacter = (character) => {
 };
 export const removeEncounterCharacter = (character, encounterId) => {
     return (dispatch, getState) => {
-        const userDoc = firebase.firestore().collection('users').doc(character.userId);
+        const userDoc = firebase.firestore().collection('users').doc(character.masterId);
         userDoc.get().then((doc) => {
             if (!doc.exists) {
                 console.log('error no doc');
@@ -37,18 +38,14 @@ export const removeEncounterCharacter = (character, encounterId) => {
                 dispatch({type: 'UPDATE_ENCOUNTER_ERROR', error});
             } else {
                 const user = doc.data();
-                console.log('character id', character.id);
                 if (!encounterId) {
                     encounterId = user.encounterId
                 }
-                const encounterDoc = firebase.firestore().collection('encounters').doc(encounterId);
-                encounterDoc.get().then((eDoc) => {
-                    const encounter = eDoc.data();
-                    firebase.firestore().collection(`encounters`).doc(user.encounterId).update({
-                        characters: encounter.characters.filter(characterN => characterN.id !== character.id)
-                    }).then(() => {
+                console.log('character id', character.id, user.encounterId);
+
+                firebase.firestore().collection(`encounters/${user.encounterId}/characters`).doc(character.id).delete().then(() => {
+                    console.log('deleted! I hope');
                         firebase.firestore().collection('characters').doc(character.id).update({
-                            ...character,
                             encounterId: ''
                         }).then(() => {
                             dispatch({type: 'UPDATE_ENCOUNTER_CHARACTER', character});
@@ -57,7 +54,7 @@ export const removeEncounterCharacter = (character, encounterId) => {
                     }).catch((error) => {
                         dispatch({type: 'UPDATE_ENCOUNTER_ERROR', error});
                     });
-                })
+
             }
         })
     }

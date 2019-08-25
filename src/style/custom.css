@@ -219,3 +219,8 @@ li.collection-item.z-depth-2.margin8.grey.darken-3 {
     flex-direction: row;
     text-align: center;
 }
+
+.turn-border {
+    border-radius: 20px;
+    border: red 3px solid;
+}

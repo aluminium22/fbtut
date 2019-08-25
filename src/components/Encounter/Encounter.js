@@ -22,34 +22,11 @@ class Encounter extends Component {
         return characters.sort((a, b) => (parseFloat(a.initiative) > parseFloat(b.initiative)) ? -1 : 1)
     }
 
-    calculateTurn = (encounter) => {
-        console.log('in calculate turn');
-        if (!encounter.ind) {
-            encounter.ind = 0;
-        }
-        if (encounter.turn) {
-            console.log('first');
-            encounter.turn = encounter.characters[0];
-            this.props.updateEncounter(encounter)
-        } else {
-            console.log('2 ');
-            if (encounter.ind !== encounter.characters.length - 1) {
-                encounter.turn = encounter.characters[encounter + 1];
-                this.props.updateEncounter(encounter)
-            } else {
-                console.log('3 ');
-                encounter.ind = 0;
-                encounter.turn = encounter.characters[0];
-                this.props.updateEncounter(encounter)
-            }
-        }
-    };
-
     render() {
         const {encounter, auth} = this.props;
-        if (encounter && encounter.characters) {
+        if (encounter) {
             encounter.characters = this.sortCharacter(encounter.characters);
-            console.log('encounter', encounter);
+            console.log('characters----->', encounter);
             if (!auth.uid) {
                 return <Redirect to='/signin'/>
             }
@@ -57,22 +34,9 @@ class Encounter extends Component {
                 <div className='dashboard container'>
                     <div className='row'>
                         <div className='col s12'>
-                            <EncounterCharacterList onPress={this.handleCharacterPress}
-                                                    characters={encounter.characters}/>
+                            <EncounterCharacterList encounter={encounter.turn} characters={encounter.characters}/>
                         </div>
                     </div>
-                    {!encounter.turn &&
-                    <div>
-                        <a onClick={() => this.calculateTurn(encounter)}
-                           className='waves-effect waves-light red btn'>Start</a>
-                    </div>
-                    }
-                    {encounter.turn &&
-                    <div>
-                        <a onClick={this.calculateTurn(encounter)}
-                           className='waves-effect waves-light red btn'>Next</a>
-                    </div>
-                    }
                 </div>
             )
         } else {
@@ -95,8 +59,9 @@ const mapDispatchtoProps = (dispatch) => {
 
 const mapStateToProps = (state, ownProps) => {
     const id = ownProps.match.params.id;
-    const encounters = state.firestore.data.encounters;
-    let encounter = encounters ? encounters[id] : null;
+    const encounters = state.firestore.ordered.encounters;
+    const encounter = encounters ? encounters[0] : null;
+    console.log('encounters', encounters);
     return {
         encounterId: id,
         encounter: encounter,
@@ -106,7 +71,21 @@ const mapStateToProps = (state, ownProps) => {
 export default compose(
     connect(mapStateToProps, mapDispatchtoProps),
     firestoreConnect((props) => {
-            return [`encounters/${props.encounterId}`]
+        return [{
+            collection: 'encounters',
+            doc: props.encounterId,
+            subcollections: [
+                {
+                    collection: 'characters',
+                    orderBy: ['initiative', 'desc',],
+                }
+            ]
+        }]
         }
-    )
+    ),
 )(Encounter);
+
+
+// limit: 1,
+// orderBy: ['timestamp', 'desc',],
+// storeAs: 'settings',

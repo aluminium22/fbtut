@@ -20,7 +20,8 @@ class EncounterCharacterList extends Component {
                                     <EncounterCharacter key={character.id} onPress={this.props.onPress}
                                                         detachMaster={this.props.detachMaster}
                                                         removeEncounter={this.props.removeEncounter}
-                                                        character={character}/>
+                                                        character={character}
+                                                        encounter={this.props.encounter}/>
                                 )
                             })
                         }

@@ -12,8 +12,21 @@ class EncounterCharacter extends Component {
         this.removeEncounter = this.removeEncounter.bind(this);
     }
 
-    renderStyle(value) {
-        return ''
+    renderStyle(encounter) {
+        // switch (encounter) {
+        //     case 'UPDATE_ENCOUNTER':
+        //         console.log('update enc', action.character);
+        //         return state;
+        //     case 'UPDATE_ENCOUNTER_CHARACTER':
+        //         console.log('update enc', action.character);
+        //         return state;
+        //     case 'UPDATE_ENCOUNTER_ERROR':
+        //         console.log('error', action.error);
+        //         return state;
+        //     default:
+        //         return state;
+        //
+        // }
     }
 
     detachMaster() {
@@ -27,12 +40,14 @@ class EncounterCharacter extends Component {
     render() {
         return (
             <div className={`scale-transition ${this.renderStyle(this.props.character)}`}>
-                <div className={`flex flex-space-between flex-align-items`}>
-                    <li className="collection-item z-depth-2 margin8 grey darken-3 width80 display-inline-block flex flex-space-between flex-align-items"
+                <div
+                    className={`flex flex-space-between flex-align-items scale-transition ${this.renderStyle(this.props.encounter)}`}>
+                    <li className="collection-item z-depth-2 margin8 grey darken-3 display-inline-block flex flex-space-between flex-align-items"
                         style={border}>
                         <div className={`flex flex-space-between flex-align-items`}>
                             <Link className='flex flex-align-items' to={'/character/' + this.props.character.id}>
-                                {this.props.character.imageLink &&
+                                {
+                                    this.props.character.imageLink &&
                                 <img src={this.props.character.imageLink} alt="" className="circle-image"/>
                                 }
                                 {!this.props.character.imageLink &&
@@ -60,9 +75,6 @@ class EncounterCharacter extends Component {
                             </div>
                         </div>
                     </li>
-                    <div className='display-inline-block roll-container width20'>
-                        <span className={'font60'}>{this.props.character.currentRoll}</span>
-                    </div>
                 </div>
             </div>
         )
