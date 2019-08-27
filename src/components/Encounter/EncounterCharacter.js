@@ -12,21 +12,13 @@ class EncounterCharacter extends Component {
         this.removeEncounter = this.removeEncounter.bind(this);
     }
 
-    renderStyle(encounter) {
-        // switch (encounter) {
-        //     case 'UPDATE_ENCOUNTER':
-        //         console.log('update enc', action.character);
-        //         return state;
-        //     case 'UPDATE_ENCOUNTER_CHARACTER':
-        //         console.log('update enc', action.character);
-        //         return state;
-        //     case 'UPDATE_ENCOUNTER_ERROR':
-        //         console.log('error', action.error);
-        //         return state;
-        //     default:
-        //         return state;
-        //
-        // }
+    renderStyle() {
+        console.log('render styles', this.props);
+        if (this.props.encounter) {
+            return this.props.encounter.id === this.props.character.id ? 'scale-in turn-border' : '';
+        } else {
+            return ''
+        }
     }
 
     detachMaster() {
@@ -39,9 +31,8 @@ class EncounterCharacter extends Component {
 
     render() {
         return (
-            <div className={`scale-transition ${this.renderStyle(this.props.character)}`}>
-                <div
-                    className={`flex flex-space-between flex-align-items scale-transition ${this.renderStyle(this.props.encounter)}`}>
+            <div className={`scale-transition ${this.renderStyle()}`}>
+                <div className={`flex flex-space-between flex-align-items scale-transition`}>
                     <li className="collection-item z-depth-2 margin8 grey darken-3 display-inline-block flex flex-space-between flex-align-items"
                         style={border}>
                         <div className={`flex flex-space-between flex-align-items`}>
@@ -71,7 +62,8 @@ class EncounterCharacter extends Component {
                                 </div>
                             </Link>
                             <div className='flex-col'>
-                                <span className='display-inline-block'>Init:{this.props.character.initiative}</span>
+                                <span
+                                    className='display-inline-block text-bold'>Init:<span>{this.props.character.initiative}</span></span>
                             </div>
                         </div>
                     </li>

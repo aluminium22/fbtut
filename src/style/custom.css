@@ -222,5 +222,15 @@ li.collection-item.z-depth-2.margin8.grey.darken-3 {
 
 .turn-border {
     border-radius: 20px;
-    border: red 3px solid;
+    border: #B71C1C 3px solid;
 }
+
+.your-player {
+    background: #5a5a5a !important;
+}
+
+.npc-text {
+    font-color: #ca5151 !important;
+}
+
+/*img.circle-image*/

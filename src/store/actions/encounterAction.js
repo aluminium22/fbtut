@@ -73,3 +73,52 @@ export const updateEncounter = (encounter) => {
 
     }
 };
+
+export const setHasPlayed = (character, encounterId, value) => {
+    return (dispatch, getState) => {
+        firebase.firestore().collection(`encounters/${encounterId}/characters`).doc(character.id).update({
+            playedRound: value
+        }).then(() => {
+            dispatch({type: 'UPDATE_ENCOUNTER', character});
+
+        }).catch((error) => {
+            dispatch({type: 'UPDATE_ENCOUNTER_ERROR', error});
+        });
+
+    }
+};
+
+export const updateTurn = (encounter, character, value) => {
+    return (dispatch, getState) => {
+        console.log('vale', value);
+        firebase.firestore().collection(`encounters`).doc(encounter.id).update({
+            turn: character
+        }).then(() => {
+            firebase.firestore().collection(`encounters/${encounter.id}/characters`).doc(character.id).set({
+                ...character,
+                playedRound: value
+            }).then(() => {
+                dispatch({type: 'UPDATE_ENCOUNTER', character});
+
+            }).catch((error) => {
+                dispatch({type: 'UPDATE_ENCOUNTER_ERROR', error});
+            });
+            dispatch({type: 'UPDATE_ENCOUNTER', encounter});
+        }).catch((error) => {
+            dispatch({type: 'UPDATE_ENCOUNTER_ERROR', error});
+        });
+
+    }
+};
+export const clearTurn = (encounter) => {
+    return (dispatch, getState) => {
+        firebase.firestore().collection(`encounters`).doc(encounter.id).update({
+            turn: null
+        }).then(() => {
+            dispatch({type: 'UPDATE_ENCOUNTER', encounter});
+        }).catch((error) => {
+            dispatch({type: 'UPDATE_ENCOUNTER_ERROR', error});
+        });
+
+    }
+};

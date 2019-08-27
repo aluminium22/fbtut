@@ -4,29 +4,42 @@ import connect from "react-redux/es/connect/connect";
 import {compose} from 'redux'
 import {firestoreConnect} from 'react-redux-firebase'
 import {Link, Redirect} from 'react-router-dom';
-import {updateEncounter} from "../../store/actions/encounterAction";
+import {updateTurn, setHasPlayed, clearTurn} from "../../store/actions/encounterAction";
 
 import firebase from '../../config/fbConfig'
 
 class Encounter extends Component {
-    handleCharacterPress = (character, type) => {
-        if (type === 'add') {
-            this.props.updateEncounterCharacter(character);
-        } else {
-            this.props.removeEncounterCharacter(character);
-            console.log('remove me!')
+    sortCharacter(characters) {
+        return characters.slice().sort((a, b) => (parseFloat(a.initiative) > parseFloat(b.initiative)) ? -1 : 1)
+    }
+
+    handleUpdateTurn = (encounter) => {
+        let chara = null;
+        for (let i = encounter.characters.length - 1; i >= 0; i--) {
+            if (!encounter.characters[i].playedRound) {
+                chara = encounter.characters[i];
+            }
         }
+        if (!chara) {
+            encounter.characters.map(character => {
+                this.props.setHasPlayed(character, encounter.id, false)
+            });
+            chara = encounter.characters[0];
+        }
+        this.props.updateTurn(encounter, chara, true);
     };
 
-    sortCharacter(characters) {
-        return characters.sort((a, b) => (parseFloat(a.initiative) > parseFloat(b.initiative)) ? -1 : 1)
-    }
+    clearTurn = (encounter) => {
+        encounter.characters.map(character => {
+            this.props.setHasPlayed(character, encounter.id, false)
+        });
+        this.props.clearTurn(encounter)
+    };
 
     render() {
         const {encounter, auth} = this.props;
         if (encounter) {
             encounter.characters = this.sortCharacter(encounter.characters);
-            console.log('characters----->', encounter);
             if (!auth.uid) {
                 return <Redirect to='/signin'/>
             }
@@ -37,6 +50,20 @@ class Encounter extends Component {
                             <EncounterCharacterList encounter={encounter.turn} characters={encounter.characters}/>
                         </div>
                     </div>
+                    <a onClick={() => this.handleUpdateTurn(this.props.encounter)}
+                       className="waves-effect red waves-light btn">
+                        {this.props.encounter.turn &&
+                        <span>Next</span>
+                        }
+                        {!this.props.encounter.turn &&
+                        <span>Start</span>
+                        }
+                    </a>
+                    {this.props.encounter.turn &&
+                    <a onClick={() => this.clearTurn(encounter)} className="waves-effect red waves-light btn">
+                        <span>Clear</span>
+                    </a>
+                    }
                 </div>
             )
         } else {
@@ -52,7 +79,10 @@ class Encounter extends Component {
 
 const mapDispatchtoProps = (dispatch) => {
     return {
-        updateEncounter: (encounter) => dispatch(updateEncounter(encounter)),
+        updateTurn: (encounter, character, value) => dispatch(updateTurn(encounter, character, value)),
+        setHasPlayed: (character, encounterId, value) => dispatch(setHasPlayed(character, encounterId, value)),
+        clearTurn: (encounter) => dispatch(clearTurn(encounter))
+
     }
 };
 
@@ -61,7 +91,6 @@ const mapStateToProps = (state, ownProps) => {
     const id = ownProps.match.params.id;
     const encounters = state.firestore.ordered.encounters;
     const encounter = encounters ? encounters[0] : null;
-    console.log('encounters', encounters);
     return {
         encounterId: id,
         encounter: encounter,
@@ -80,7 +109,12 @@ export default compose(
                     orderBy: ['initiative', 'desc',],
                 }
             ]
-        }]
+        },
+            {
+                collection: 'encounters',
+                doc: props.encounterId,
+            }
+        ]
         }
     ),
 )(Encounter);

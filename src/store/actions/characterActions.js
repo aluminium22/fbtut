@@ -38,6 +38,7 @@ export const createCharacter = (character) => {
       ...character,
       masterId: user.uid,
       userId: user.uid,
+      playedRound: false,
       createdAt: new Date()
     }).then(() => {
       dispatch({ type: 'CREATE_CHARACTER', character });
