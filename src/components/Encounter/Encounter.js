@@ -4,13 +4,22 @@ import connect from "react-redux/es/connect/connect";
 import {compose} from 'redux'
 import {firestoreConnect} from 'react-redux-firebase'
 import {Link, Redirect} from 'react-router-dom';
-import {updateTurn, setHasPlayed, clearTurn, updateEncounterChar} from "../../store/actions/encounterAction";
+import {
+    updateTurn,
+    setHasPlayed,
+    clearTurn,
+    updateEncounterChar,
+    updateRoll
+} from "../../store/actions/encounterAction";
+import Dice from '../dice/Dice';
 
 import firebase from '../../config/fbConfig'
 
 class Encounter extends Component {
     state = {
-        characters: []
+        isRoll: false,
+        characters: [],
+        rollCharacter: null,
     };
 
     sortCharacter(characters) {
@@ -54,6 +63,24 @@ class Encounter extends Component {
         });
         this.props.clearTurn(encounter)
     };
+    toggleDiceScreen = () => {
+        console.log('roll');
+        this.setState({
+            isRoll: !this.state.isRoll
+        })
+    };
+
+    roll = (character) => {
+        this.toggleDiceScreen();
+        this.setState({
+            rollCharacter: character
+        })
+    };
+
+    shareRoll = (roll) => {
+        this.props.updateRoll(roll, this.state.rollCharacter);
+        this.toggleDiceScreen()
+    };
 
     render() {
         let {encounter, auth} = this.props;
@@ -67,24 +94,38 @@ class Encounter extends Component {
                     <div className='dashboard container'>
                         <div className='row'>
                             <div className='col s12'>
-                                <EncounterCharacterList auth={auth} updateChar={this.updateChar}
+                                <EncounterCharacterList auth={auth} updateChar={this.updateChar} roll={this.roll}
                                                         encounter={encounter.turn} characters={this.state.characters}/>
                             </div>
                         </div>
-                        <a onClick={() => this.handleUpdateTurn(this.props.encounter)}
-                           className="waves-effect red darken-4 waves-light btn">
+                        {auth.uid === encounter.characters[0].masterId &&
+                        <div className="padding8">
+                            <a onClick={() => this.handleUpdateTurn(this.props.encounter)}
+                               className="waves-effect red darken-4 waves-light btn">
+                                {this.props.encounter.turn &&
+                                <span>Next</span>
+                                }
+                                {!this.props.encounter.turn &&
+                                <span>Start</span>
+                                }
+                            </a>
                             {this.props.encounter.turn &&
-                            <span>Next</span>
+                            <a onClick={() => this.clearTurn(encounter)}
+                               className="waves-effect red darken-4 waves-light btn">
+                                <span>Clear</span>
+                            </a>
                             }
-                            {!this.props.encounter.turn &&
-                            <span>Start</span>
-                            }
-                        </a>
-                        {this.props.encounter.turn &&
-                        <a onClick={() => this.clearTurn(encounter)}
-                           className="waves-effect red darken-4 waves-light btn">
-                            <span>Clear</span>
-                        </a>
+                        </div>
+                        }
+                        {this.state.isRoll &&
+                        <div className={'cancel-roll'}>
+                            <a onClick={this.toggleDiceScreen}
+                               className="btn-floating btn-small waves-effect waves-light red"><i
+                                className="material-icons">close</i></a>
+                        </div>
+                        }
+                        {this.state.isRoll &&
+                        <Dice className={'overlay'} shareRoll={this.shareRoll}/>
                         }
                     </div>
                 )
@@ -114,7 +155,8 @@ const mapDispatchtoProps = (dispatch) => {
         updateTurn: (encounter, character, value) => dispatch(updateTurn(encounter, character, value)),
         setHasPlayed: (character, encounterId, value) => dispatch(setHasPlayed(character, encounterId, value)),
         clearTurn: (encounter) => dispatch(clearTurn(encounter)),
-        updateEncounterChar: (encounter, character) => dispatch(updateEncounterChar(encounter, character))
+        updateEncounterChar: (encounter, character) => dispatch(updateEncounterChar(encounter, character)),
+        updateRoll: (roll, character) => dispatch(updateRoll(roll, character))
 
     }
 };

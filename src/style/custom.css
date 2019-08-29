@@ -205,12 +205,12 @@ li.collection-item.z-depth-2.margin8.grey.darken-3 {
     width: 100%;
 }
 
-.width80 {
-    width: 80%;
+.width90 {
+    width: 90%;
 }
 
-.width20 {
-    width: 20%;
+.width10 {
+    width: 10%;
 }
 
 .font60 {
@@ -242,14 +242,14 @@ li.collection-item.z-depth-2.margin8.grey.darken-3 {
     margin-left: 8px;
     margin-right: 8px;
     display: flex;
-    width: 75%;
+    width: 54%;
     height: 10px;
     border-radius: 5px;
     background-color: #282828;
 }
 
 .hp {
-    width: 20%;
+    width: 30%;
 }
 
 .health-inner {
@@ -282,4 +282,38 @@ li.collection-item.z-depth-2.margin8.grey.darken-3 {
 
 .encounter-input[type=number] {
     -moz-appearance: textfield !important; /* Firefox */
+}
+
+.overlay {
+    background: #212121;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.cancel-roll {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    z-index: 101;
+}
+
+.char-roll {
+    display: block !important;
+    overflow: visible;
+    font-size: 20px;
+    margin: 4px;
+    background-color: #841717;
+    line-height: 2.5;
+    text-align: center;
+    border-radius: 10px;
+    margin-left: 0px;
+    font-weight: bold;
+}
+
+.margin8-right {
+    margin: 8px 0 8px 8px !important;
+    border-radius: 15px;
 }

@@ -12,6 +12,9 @@ class EncounterCharacter extends Component {
         this.removeEncounter = this.removeEncounter.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.submitCharUpdate = this.submitCharUpdate.bind(this);
+        this.roll = this.roll.bind(this);
+
+
         this.state = {
             hp: 0,
             damage: 0,
@@ -66,11 +69,15 @@ class EncounterCharacter extends Component {
         return {width: percent + '%'}
     }
 
+    roll() {
+        this.props.roll(this.props.character)
+    }
+
     render() {
         return (
             <div className={`scale-transition ${this.renderStyle()}`}>
                 <div className={`flex flex-space-between flex-align-items scale-transition`}>
-                    <li className="collection-item z-depth-2 margin8 grey darken-3 display-inline-block flex flex-space-between flex-align-items"
+                    <li className="collection-item z-depth-2 margin8-right grey darken-3 display-inline-block flex flex-space-between flex-align-items width90"
                         style={border}>
                         <div className={`flex flex-space-between flex-align-items`}>
                             <a className='flex flex-align-items'>
@@ -121,7 +128,7 @@ class EncounterCharacter extends Component {
                                 </div>
                             </a>
                             <div className='flex-col'>
-                                {(this.props.character.hp !== this.state.hp) || (this.state.damage !== this.props.character.damage) &&
+                                {(this.props.character.hp !== this.state.hp) || (this.state.damage !== this.props.character.damage && this.props.auth.uid === this.props.character.masterId) &&
                                 <a className="waves-effect grey darken-4 waves-light btn-small"
                                    onClick={this.submitCharUpdate}>Update</a>}
                                 <span
@@ -129,6 +136,12 @@ class EncounterCharacter extends Component {
                             </div>
                         </div>
                     </li>
+                    <div className={`width10`}>
+                        {this.props.character.currentRoll && <div onClick={this.roll}
+                                                                  className={'waves-effect waves-dark z-depth-3 char-roll'}>{this.props.character.currentRoll}</div>}
+                        {!this.props.character.currentRoll &&
+                        <div onClick={this.roll} className={'waves-effect waves-dark z-depth-3 char-roll'}>Roll</div>}
+                    </div>
                 </div>
             </div>
         )

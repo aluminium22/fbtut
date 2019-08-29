@@ -89,6 +89,10 @@ class Dice extends Component {
         // this.setState({roll:e})
     };
 
+    shareRoll = () => {
+        this.props.shareRoll(this.state.roll);
+    };
+
     handleRelease = (die) => {
         this.setState({transition: 'scale-out'});
         // this.setState({roll:e})
@@ -154,7 +158,7 @@ class Dice extends Component {
         }
         return rolls;
     };
-    toggleCheatClass = () => {
+    toggleImbrogliareClass = () => {
         return this.state.isImbrogliando ? ` grey-text text-lighten-1` : ` grey-text text-lighten-2`;
     };
     handleChange = (e) => {
@@ -205,10 +209,12 @@ class Dice extends Component {
         //     return <Redirect to='/signin' />
         // }
         return (
-            <div className='dashboard al-container' style={{margin: 0 + 'px', padding: 0 + 'px', width: '100%'}}>
+            <div className={`dashboard al-container ${this.props.className}`}
+                 style={{margin: 0 + 'px', padding: 0 + 'px', width: '100%'}}>
                 <div className='row' style={{padding: 16 + 'px'}}>
                     <div className={'col s6 scale-transition '}>
-                        <a className="waves-effect red darken-2 btn" style={{margin: 0 + 'px'}}>show</a>
+                        <a className="waves-effect red darken-2 btn" onClick={this.shareRoll}
+                           style={{margin: 0 + 'px'}}>show</a>
                     </div>
                     <div className='col s6 center-align'>
                         <label className='red-text text-lighten-1 font14'>Roll Type</label>
@@ -222,7 +228,7 @@ class Dice extends Component {
                     <div className='center-align valign-wrapper flex-tag'>
                         <span className={'center-align font14 red-text text-darken-2'}>Modifier</span>
                         <span className='grey-text text-lighten-3 center-align font14'>
-                            <span className={`padding8 ${this.toggleCheatClass()}`}> + </span>
+                            <span className={`padding8 ${this.toggleImbrogliareClass()}`}> + </span>
                             {this.state.mod}
                         </span>
                     </div>
