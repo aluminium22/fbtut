@@ -92,6 +92,9 @@ class Dice extends Component {
     shareRoll = () => {
         this.props.shareRoll(this.state.roll);
     };
+    shareInit = () => {
+        this.props.shareInit(this.state.roll);
+    };
 
     handleRelease = (die) => {
         this.setState({transition: 'scale-out'});
@@ -212,10 +215,18 @@ class Dice extends Component {
             <div className={`dashboard al-container ${this.props.className}`}
                  style={{margin: 0 + 'px', padding: 0 + 'px', width: '100%'}}>
                 <div className='row' style={{padding: 16 + 'px'}}>
+                    {this.props.shareRoll &&
                     <div className={'col s6 scale-transition '}>
                         <a className="waves-effect red darken-2 btn" onClick={this.shareRoll}
-                           style={{margin: 0 + 'px'}}>show</a>
+                        >Share Roll</a>
                     </div>
+                    }
+                    {this.props.shareInit &&
+                    <div className={'col s6 scale-transition '}>
+                        <a className="waves-effect red darken-2 btn" onClick={this.shareInit}
+                        >Share Initiative</a>
+                    </div>
+                    }
                     <div className='col s6 center-align'>
                         <label className='red-text text-lighten-1 font14'>Roll Type</label>
                         <div className="switch">

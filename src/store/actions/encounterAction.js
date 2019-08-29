@@ -137,3 +137,16 @@ export const updateRoll = (roll, character) => {
 
     }
 };
+
+export const updateInit = (roll, character) => {
+    return (dispatch, getState) => {
+        firebase.firestore().collection(`encounters/${character.encounterId}/characters`).doc(character.id).update({
+            initiative: roll
+        }).then(() => {
+            dispatch({type: 'UPDATE_ENCOUNTER', character});
+        }).catch((error) => {
+            dispatch({type: 'UPDATE_ENCOUNTER_ERROR', error});
+        });
+
+    }
+};

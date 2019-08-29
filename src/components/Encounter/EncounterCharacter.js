@@ -77,7 +77,7 @@ class EncounterCharacter extends Component {
         return (
             <div className={`scale-transition ${this.renderStyle()}`}>
                 <div className={`flex flex-space-between flex-align-items scale-transition`}>
-                    <li className="collection-item z-depth-2 margin8-right grey darken-3 display-inline-block flex flex-space-between flex-align-items width90"
+                    <li className="collection-item z-depth-2 margin8 grey darken-3 display-inline-block flex flex-space-between flex-align-items character-encounter"
                         style={border}>
                         <div className={`flex flex-space-between flex-align-items`}>
                             <a className='flex flex-align-items'>
@@ -96,7 +96,7 @@ class EncounterCharacter extends Component {
                                           </span>
                                         {this.props.character.class &&
                                         <span className="text-grey text-lighten-2">
-                                              Class: {this.props.character.class}
+                                              Init: {this.props.character.initiative}
                                           </span>
                                         }
                                     </div>
@@ -130,18 +130,22 @@ class EncounterCharacter extends Component {
                             <div className='flex-col'>
                                 {(this.props.character.hp !== this.state.hp) || (this.state.damage !== this.props.character.damage && this.props.auth.uid === this.props.character.masterId) &&
                                 <a className="waves-effect grey darken-4 waves-light btn-small"
-                                   onClick={this.submitCharUpdate}>Update</a>}
-                                <span
-                                    className='display-inline-block text-bold'>Init:<span>{this.props.character.initiative}</span></span>
+                                   onClick={this.submitCharUpdate}>Update</a>
+                                }
+                                <div className="display-inline-block">
+                                    {this.props.character.currentRoll &&
+                                    <div onClick={this.roll} className={'waves-effect waves-dark z-depth-3 char-roll'}>
+                                        {this.props.character.currentRoll}
+                                    </div>
+                                    }
+                                    {!this.props.character.currentRoll &&
+                                    <div onClick={this.roll} className={'waves-effect waves-dark z-depth-3 char-roll'}>
+                                        Roll</div>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </li>
-                    <div className={`width10`}>
-                        {this.props.character.currentRoll && <div onClick={this.roll}
-                                                                  className={'waves-effect waves-dark z-depth-3 char-roll'}>{this.props.character.currentRoll}</div>}
-                        {!this.props.character.currentRoll &&
-                        <div onClick={this.roll} className={'waves-effect waves-dark z-depth-3 char-roll'}>Roll</div>}
-                    </div>
                 </div>
             </div>
         )

@@ -9,7 +9,8 @@ import {
     setHasPlayed,
     clearTurn,
     updateEncounterChar,
-    updateRoll
+    updateRoll,
+    updateInit
 } from "../../store/actions/encounterAction";
 import Dice from '../dice/Dice';
 
@@ -81,6 +82,10 @@ class Encounter extends Component {
         this.props.updateRoll(roll, this.state.rollCharacter);
         this.toggleDiceScreen()
     };
+    shareInit = (roll) => {
+        this.props.updateInit(roll, this.state.rollCharacter);
+        this.toggleDiceScreen()
+    };
 
     render() {
         let {encounter, auth} = this.props;
@@ -125,7 +130,7 @@ class Encounter extends Component {
                         </div>
                         }
                         {this.state.isRoll &&
-                        <Dice className={'overlay'} shareRoll={this.shareRoll}/>
+                        <Dice className={'overlay'} shareInit={this.shareInit} shareRoll={this.shareRoll}/>
                         }
                     </div>
                 )
@@ -156,7 +161,8 @@ const mapDispatchtoProps = (dispatch) => {
         setHasPlayed: (character, encounterId, value) => dispatch(setHasPlayed(character, encounterId, value)),
         clearTurn: (encounter) => dispatch(clearTurn(encounter)),
         updateEncounterChar: (encounter, character) => dispatch(updateEncounterChar(encounter, character)),
-        updateRoll: (roll, character) => dispatch(updateRoll(roll, character))
+        updateRoll: (roll, character) => dispatch(updateRoll(roll, character)),
+        updateInit: (roll, character) => dispatch(updateInit(roll, character))
 
     }
 };
