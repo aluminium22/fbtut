@@ -201,6 +201,10 @@ li.collection-item.z-depth-2.margin8.grey.darken-3 {
     display: inline-block;
 }
 
+.width100 {
+    width: 100%;
+}
+
 .width80 {
     width: 80%;
 }
@@ -234,3 +238,48 @@ li.collection-item.z-depth-2.margin8.grey.darken-3 {
 }
 
 /*img.circle-image*/
+.health-outer {
+    margin-left: 8px;
+    margin-right: 8px;
+    display: flex;
+    width: 75%;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #282828;
+}
+
+.hp {
+    width: 20%;
+}
+
+.health-inner {
+    height: 9px;
+    background-color: #b71c1c;
+    border-radius: 5px;
+}
+
+.health-over {
+    height: 9px;
+    background-color: #e49a12;;
+    border-radius: 5px;
+}
+
+.encounter-input {
+    height: 16px !important;
+    border-bottom: none !important;
+    margin-bottom: 0 !important;
+    text-align: center !important;
+    color: #eee !important;
+
+}
+
+.encounter-input::-webkit-outer-spin-button,
+.encounter-input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none !important;
+    margin: 0 !important; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+.encounter-input[type=number] {
+    -moz-appearance: textfield !important; /* Firefox */
+}

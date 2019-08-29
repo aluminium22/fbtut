@@ -10,7 +10,6 @@ const border = {
 
 class EncounterCharacterList extends Component {
     render() {
-        console.log('encounter', this.props.encounter);
         if (this.props.characters) {
             if (this.props.characters.length) {
                 return (
@@ -22,6 +21,8 @@ class EncounterCharacterList extends Component {
                                                         detachMaster={this.props.detachMaster}
                                                         removeEncounter={this.props.removeEncounter}
                                                         character={character}
+                                                        updateChar={this.props.updateChar}
+                                                        auth={this.props.auth}
                                                         encounter={this.props.encounter}/>
                                 )
                             })

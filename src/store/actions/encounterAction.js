@@ -1,4 +1,5 @@
 import firebase from '../../config/fbConfig'
+import characterReducer from "../reducer/characterReducer";
 
 export const updateEncounterCharacter = (character) => {
     return (dispatch, getState) => {
@@ -60,10 +61,11 @@ export const removeEncounterCharacter = (character, encounterId) => {
     }
 };
 
-export const updateEncounter = (encounter) => {
+export const updateEncounterChar = (encounter, character) => {
+    console.log('encounter---------', encounter, character);
     return (dispatch, getState) => {
-        firebase.firestore().collection('encounters').doc(encounter.id).update({
-            encounter: encounter
+        firebase.firestore().collection(`encounters/${encounter.id}/characters`).doc(character.id).update({
+            ...character
         }).then(() => {
             dispatch({type: 'UPDATE_ENCOUNTER', encounter});
             console.log('encounter', encounter);

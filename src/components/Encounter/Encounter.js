@@ -4,14 +4,33 @@ import connect from "react-redux/es/connect/connect";
 import {compose} from 'redux'
 import {firestoreConnect} from 'react-redux-firebase'
 import {Link, Redirect} from 'react-router-dom';
-import {updateTurn, setHasPlayed, clearTurn} from "../../store/actions/encounterAction";
+import {updateTurn, setHasPlayed, clearTurn, updateEncounterChar} from "../../store/actions/encounterAction";
 
 import firebase from '../../config/fbConfig'
 
 class Encounter extends Component {
+    state = {
+        characters: []
+    };
+
     sortCharacter(characters) {
-        return characters.slice().sort((a, b) => (parseFloat(a.initiative) > parseFloat(b.initiative)) ? -1 : 1)
+        const array = characters.slice().sort((a, b) => (parseFloat(a.initiative) > parseFloat(b.initiative)) ? -1 : 1);
+        return array;
     }
+
+    componentDidUpdate(prevProps) {
+        // Typical usage (don't forget to compare props):
+        if (this.props.encounter !== prevProps.encounter) {
+            console.log('this. prop char', this.props.encounter.characters);
+            this.setState({
+                characters: this.props.encounter.characters
+            })
+        }
+    }
+
+    updateChar = (character) => {
+        this.props.updateEncounterChar(this.props.encounter, character)
+    };
 
     handleUpdateTurn = (encounter) => {
         let chara = null;
@@ -37,35 +56,48 @@ class Encounter extends Component {
     };
 
     render() {
-        const {encounter, auth} = this.props;
+        let {encounter, auth} = this.props;
         if (encounter) {
-            encounter.characters = this.sortCharacter(encounter.characters);
-            if (!auth.uid) {
-                return <Redirect to='/signin'/>
-            }
-            return (
-                <div className='dashboard container'>
-                    <div className='row'>
-                        <div className='col s12'>
-                            <EncounterCharacterList encounter={encounter.turn} characters={encounter.characters}/>
+            if (this.state.characters) {
+                this.sortCharacter(this.state.characters);
+                if (!auth.uid) {
+                    return <Redirect to='/signin'/>
+                }
+                return (
+                    <div className='dashboard container'>
+                        <div className='row'>
+                            <div className='col s12'>
+                                <EncounterCharacterList auth={auth} updateChar={this.updateChar}
+                                                        encounter={encounter.turn} characters={this.state.characters}/>
+                            </div>
                         </div>
-                    </div>
-                    <a onClick={() => this.handleUpdateTurn(this.props.encounter)}
-                       className="waves-effect red waves-light btn">
+                        <a onClick={() => this.handleUpdateTurn(this.props.encounter)}
+                           className="waves-effect red darken-4 waves-light btn">
+                            {this.props.encounter.turn &&
+                            <span>Next</span>
+                            }
+                            {!this.props.encounter.turn &&
+                            <span>Start</span>
+                            }
+                        </a>
                         {this.props.encounter.turn &&
-                        <span>Next</span>
+                        <a onClick={() => this.clearTurn(encounter)}
+                           className="waves-effect red darken-4 waves-light btn">
+                            <span>Clear</span>
+                        </a>
                         }
-                        {!this.props.encounter.turn &&
-                        <span>Start</span>
+                    </div>
+                )
+            } else {
+                return (
+                    <div className="container center">
+                        {
+                            window.location.reload()
                         }
-                    </a>
-                    {this.props.encounter.turn &&
-                    <a onClick={() => this.clearTurn(encounter)} className="waves-effect red waves-light btn">
-                        <span>Clear</span>
-                    </a>
-                    }
-                </div>
-            )
+                        <p> Loading </p>
+                    </div>
+                )
+            }
         } else {
             return (
                 <div className="container center">
@@ -81,7 +113,8 @@ const mapDispatchtoProps = (dispatch) => {
     return {
         updateTurn: (encounter, character, value) => dispatch(updateTurn(encounter, character, value)),
         setHasPlayed: (character, encounterId, value) => dispatch(setHasPlayed(character, encounterId, value)),
-        clearTurn: (encounter) => dispatch(clearTurn(encounter))
+        clearTurn: (encounter) => dispatch(clearTurn(encounter)),
+        updateEncounterChar: (encounter, character) => dispatch(updateEncounterChar(encounter, character))
 
     }
 };
@@ -100,6 +133,7 @@ const mapStateToProps = (state, ownProps) => {
 export default compose(
     connect(mapStateToProps, mapDispatchtoProps),
     firestoreConnect((props) => {
+        if (!props.auth.uid) return [];
         return [{
             collection: 'encounters',
             doc: props.encounterId,
