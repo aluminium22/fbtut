@@ -6,6 +6,12 @@ class CharacterSummary extends Component {
         super(props);
         this.detachMaster = this.detachMaster.bind(this);
         this.removeEncounter = this.removeEncounter.bind(this);
+        this.updateEncounter = this.updateEncounter.bind(this);
+
+    }
+
+    updateEncounter() {
+        this.props.updateEncounter(this.props.character)
     }
 
     renderStripes(value) {
@@ -49,8 +55,8 @@ class CharacterSummary extends Component {
                 </Link>
                 <div className='flex-col'>
                     {this.props.character.encounterId &&
-                    <Link className={`waves-effect waves-red btn-flat display-block text-button-red`}
-                          to={`/encounter/${this.props.character.encounterId}`}>View</Link>
+                    <a className={`waves-effect waves-red btn-flat display-block text-button-red`}
+                       onClick={this.updateEncounter}>View</a>
                     }
                     {this.props.character.encounterId &&
                     <a className={`waves-effect waves-red btn-flat text-button-grey display-block`}

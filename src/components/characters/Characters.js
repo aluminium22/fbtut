@@ -6,7 +6,7 @@ import { firestoreConnect } from 'react-redux-firebase'
 import {Link, Redirect} from 'react-router-dom';
 import firebase from '../../config/fbConfig'
 import {detachMaster} from "../../store/actions/characterActions";
-import {removeEncounterCharacter} from "../../store/actions/encounterAction";
+import {removeEncounterCharacter, getEncounter} from "../../store/actions/encounterAction";
 
 
 class Characters extends Component {
@@ -17,6 +17,10 @@ class Characters extends Component {
 
     removeEncounter = (character, encounterId) => {
         this.props.removeEncounterCharacter(character, encounterId);
+    };
+
+    updateEncounter = (character) => {
+        this.props.getEncounter(character, this.props.history);
     };
 
     render() {
@@ -39,7 +43,8 @@ class Characters extends Component {
                     </div>
                     <div className='row'>
                         <div className='col s12 center-align'>
-                            <CharacterList detachMaster={this.detach} removeEncounter={this.removeEncounter}
+                            <CharacterList detachMaster={this.detach} updateEncounter={this.updateEncounter}
+                                           removeEncounter={this.removeEncounter}
                                            characters={characters}/>
                         </div>
                     </div>
@@ -67,7 +72,9 @@ const hasUser = () => {
 const mapDispatchtoProps = (dispatch) => {
     return {
         detachMaster: (character) => dispatch(detachMaster(character)),
-        removeEncounterCharacter: (character, encounterId) => dispatch(removeEncounterCharacter(character, encounterId))
+        removeEncounterCharacter: (character, encounterId) => dispatch(removeEncounterCharacter(character, encounterId)),
+        getEncounter: (character, history) => dispatch(getEncounter(character, history))
+
     }
 };
 

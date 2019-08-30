@@ -21,6 +21,7 @@ class CharacterList extends Component {
                                         <CharacterSummary onPress={this.props.onPress}
                                                           detachMaster={this.props.detachMaster}
                                                           removeEncounter={this.props.removeEncounter}
+                                                          updateEncounter={this.props.updateEncounter}
                                                           character={character}/>
                                     </li>
                                 )

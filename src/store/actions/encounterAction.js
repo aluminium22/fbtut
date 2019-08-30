@@ -151,3 +151,23 @@ export const updateInit = (roll, character) => {
 
     }
 };
+
+export const getEncounter = (character, history) => {
+    return (dispatch, getState) => {
+        let encounter = firebase.firestore().collection(`encounters`).doc(character.encounterId);
+        encounter.get().then((doc) => {
+            if (doc.exists) {
+                console.log("Document data:", doc.data());
+                dispatch({type: 'UPDATE_ENCOUNTER', encounter: doc.data()});
+                history.push(`/encounter/${character.encounterId}`)
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+                dispatch({type: 'UPDATE_ENCOUNTER_ERROR'});
+            }
+        }).catch((error) => {
+            dispatch({type: 'UPDATE_ENCOUNTER_ERROR', error});
+        });
+
+    }
+};

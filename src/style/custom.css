@@ -143,6 +143,18 @@ span.title {
     margin: 4px;
 }
 
+.condition-image {
+    border-radius: 50%;
+    max-height: 20px;
+    height: auto;
+    width: 16px;
+    display: inline-block;
+    margin: 4px;
+}
+
+.condition-button {
+    border-radius: 50%;
+}
 .text-button-red {
     font-weight: bold;
     color: #B71C1C;

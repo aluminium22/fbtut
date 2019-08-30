@@ -31,10 +31,14 @@ class Encounter extends Component {
     componentDidUpdate(prevProps) {
         // Typical usage (don't forget to compare props):
         if (this.props.encounter !== prevProps.encounter) {
-            console.log('this. prop char', this.props.encounter.characters);
-            this.setState({
-                characters: this.sortCharacter(this.props.encounter.characters)
-            })
+            if (this.props.encounter.characters !== undefined) {
+                console.log('this. prop char', this.props.encounter.characters);
+                this.setState({
+                    characters: this.sortCharacter(this.props.encounter.characters)
+                })
+            } else {
+                window.location.reload()
+            }
         }
     }
 
@@ -140,9 +144,6 @@ class Encounter extends Component {
             } else {
                 return (
                     <div className="container center">
-                        {/*{*/}
-                        {/*    window.location.reload()*/}
-                        {/*}*/}
                         <p> Loading </p>
                     </div>
                 )
@@ -174,7 +175,7 @@ const mapDispatchtoProps = (dispatch) => {
 const mapStateToProps = (state, ownProps) => {
     const id = ownProps.match.params.id;
     const encounters = state.firestore.ordered.encounters;
-    const encounter = encounters ? encounters[0] : null;
+    const encounter = encounters ? encounters[0] : state.encounter;
     return {
         encounterId: id,
         encounter: encounter,
