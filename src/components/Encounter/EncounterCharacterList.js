@@ -9,7 +9,9 @@ const border = {
 };
 
 class EncounterCharacterList extends Component {
+
     render() {
+        console.log('character in list', this.props);
         if (this.props.characters) {
             if (this.props.characters.length) {
                 return (

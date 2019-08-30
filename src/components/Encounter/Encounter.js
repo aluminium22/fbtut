@@ -19,7 +19,7 @@ import firebase from '../../config/fbConfig'
 class Encounter extends Component {
     state = {
         isRoll: false,
-        characters: [],
+        characters: null,
         rollCharacter: null,
     };
 
@@ -33,7 +33,7 @@ class Encounter extends Component {
         if (this.props.encounter !== prevProps.encounter) {
             console.log('this. prop char', this.props.encounter.characters);
             this.setState({
-                characters: this.props.encounter.characters
+                characters: this.sortCharacter(this.props.encounter.characters)
             })
         }
     }
@@ -43,6 +43,10 @@ class Encounter extends Component {
     };
 
     handleUpdateTurn = (encounter) => {
+        // this.setState({
+        //     characters: this.sortCharacter(this.state.characters)
+        // })
+        console.log('characters- state ', this.state.characters);
         let chara = null;
         for (let i = encounter.characters.length - 1; i >= 0; i--) {
             if (!encounter.characters[i].playedRound) {
@@ -91,7 +95,6 @@ class Encounter extends Component {
         let {encounter, auth} = this.props;
         if (encounter) {
             if (this.state.characters) {
-                this.sortCharacter(this.state.characters);
                 if (!auth.uid) {
                     return <Redirect to='/signin'/>
                 }
@@ -137,9 +140,9 @@ class Encounter extends Component {
             } else {
                 return (
                     <div className="container center">
-                        {
-                            window.location.reload()
-                        }
+                        {/*{*/}
+                        {/*    window.location.reload()*/}
+                        {/*}*/}
                         <p> Loading </p>
                     </div>
                 )
