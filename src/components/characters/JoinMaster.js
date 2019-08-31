@@ -30,7 +30,7 @@ class JoinMaster extends Component {
                     <h5 className="grey-text text-darken-3">Sign Up</h5>
                     <div className="input-field">
                         <label htmlFor="email">Email</label>
-                        <input type="email" id="email" onChange={this.handleChange}></input>
+                        <input type="email" id="email" onChange={this.handleChange} required></input>
                     </div>
                     <div className='input-field'>
                         <button className="btn red darken-4 z-depth-0">Join</button>

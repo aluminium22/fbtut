@@ -95,6 +95,21 @@ class Encounter extends Component {
         this.toggleDiceScreen()
     };
 
+    handleConditionToggle = (character, value) => {
+        if (character.conditions) {
+            let newCharacter = {...character};
+            newCharacter.conditions = {...newCharacter.conditions, [value]: !newCharacter.conditions[value]};
+            console.log('chaaracter  dd', newCharacter);
+            this.props.updateEncounterChar(this.props.encounter, newCharacter);
+        } else {
+            let newCharacter = {...character};
+            newCharacter.conditions = {[value]: true};
+            console.log('new character condition', newCharacter);
+            this.props.updateEncounterChar(this.props.encounter, newCharacter);
+        }
+    };
+
+
     render() {
         let {encounter, auth} = this.props;
         if (encounter) {
@@ -106,8 +121,13 @@ class Encounter extends Component {
                     <div className='dashboard container'>
                         <div className='row'>
                             <div className='col s12'>
-                                <EncounterCharacterList auth={auth} updateChar={this.updateChar} roll={this.roll}
-                                                        encounter={encounter.turn} characters={this.state.characters}/>
+                                <EncounterCharacterList auth={auth}
+                                                        updateChar={this.updateChar}
+                                                        roll={this.roll}
+                                                        encounter={encounter.turn}
+                                                        characters={this.state.characters}
+                                                        condition={this.handleConditionToggle}
+                                />
                             </div>
                         </div>
                         {auth.uid === encounter.characters[0].masterId &&

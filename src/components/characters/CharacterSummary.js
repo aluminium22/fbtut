@@ -62,7 +62,7 @@ class CharacterSummary extends Component {
                     <a className={`waves-effect waves-red btn-flat text-button-grey display-block`}
                        onClick={this.removeEncounter}>Leave</a>
                     }
-                    {(this.props.character.userId !== this.props.character.masterId) && (!this.props.encounterId) &&
+                    {(this.props.character.userId !== this.props.character.masterId) && (!this.props.character.encounterId) &&
                     <a className={`waves-effect waves-red btn-flat text-button-grey display-block`}
                        onClick={this.detachMaster}>Rescind</a>
                     }

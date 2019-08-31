@@ -12,28 +12,31 @@ class EncounterCharacter extends Component {
         this.removeEncounter = this.removeEncounter.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.submitCharUpdate = this.submitCharUpdate.bind(this);
+        this.showConditionToggle = this.showConditionToggle.bind(this);
+        this.handleConditionToggle = this.handleConditionToggle.bind(this);
         this.roll = this.roll.bind(this);
 
 
         this.state = {
             hp: 0,
             damage: 0,
-            conditions: {
-                isBlind: false,
-                isCharmed: false,
-                isDeaf: false,
-                isFrightened: false,
-                isGrappled: false,
-                isIncapacitated: false,
-                isInvisible: false,
-                isParalyzed: false,
-                isPetrified: false,
-                isPoisoned: false,
-                isProne: false,
-                isRestrained: false,
-                isStunned: false,
-                isUnconscious: false,
-            }
+            showCondition: false,
+            // conditions: {
+            //     isBlind: false,
+            //     isCharmed: false,
+            //     isDeaf: false,
+            //     isFrightened: false,
+            //     isGrappled: false,
+            //     isIncapacitated: false,
+            //     isInvisible: false,
+            //     isParalyzed: false,
+            //     isPetrified: false,
+            //     isPoisoned: false,
+            //     isProne: false,
+            //     isRestrained: false,
+            //     isStunned: false,
+            //     isUnconscious: false,
+            // }
         }
     }
 
@@ -66,12 +69,15 @@ class EncounterCharacter extends Component {
         this.setState({[e.target.id]: e.target.value.slice(0, this.props.character.maxHp)})
     }
 
-    handleConditionToggle(value, e) {
-        console.log('hadnle condition', e, value);
-        var conditions = {...this.state.conditions};
-        conditions[value] = !e;
-        this.setState({conditions});
-        console.log('conditons', this.state.conditions)
+    showConditionToggle() {
+        this.setState({
+            showCondition: !this.state.showCondition
+        })
+    }
+
+    handleConditionToggle(value) {
+        this.props.condition(this.props.character, value);
+        this.showConditionToggle();
     }
 
     submitCharUpdate() {
@@ -104,7 +110,8 @@ class EncounterCharacter extends Component {
                     <li className="collection-item z-depth-2 margin8 grey darken-3 display-inline-block flex flex-space-between flex-align-items character-encounter"
                         style={border}>
                         <div className={`flex flex-space-between flex-align-items`}>
-                            <a className='flex flex-align-items'>
+                            <div className='flex flex-align-items'>
+                                <a onClick={this.showConditionToggle}>
                                 {
                                     this.props.character.imageLink &&
                                 <img src={this.props.character.imageLink} alt="" className="circle-image"/>
@@ -113,6 +120,7 @@ class EncounterCharacter extends Component {
                                 <img src={require(`../characters/images/Tuun-avatar-flat.jpg`)} alt=""
                                      className="circle-image"/>
                                 }
+                                </a>
                                 <div className="flex-col padding-left16 flex-justify-left width100">
                                     <div className="display-inline-block">
                                           <span className="title">
@@ -210,7 +218,7 @@ class EncounterCharacter extends Component {
                                     </div>
                                     }
                                 </div>
-                            </a>
+                            </div>
                             <div className='flex-col'>
                                 {(this.props.character.hp !== this.state.hp) || (this.state.damage !== this.props.character.damage && this.props.auth.uid === this.props.character.masterId) &&
                                 <a className="waves-effect grey darken-4 waves-light btn-small"
@@ -229,78 +237,80 @@ class EncounterCharacter extends Component {
                                 </div>
                             </div>
                         </div>
+                        {this.state.showCondition &&
                         <div className="display-inline-block">
-                            <a onClick={() => this.handleConditionToggle('isBlind', this.state.conditions.isBlind)}
+                            <a onClick={() => this.handleConditionToggle('isBlind')}
                                className="padding8 waves-effect condition-button" id="blind">
                                 <img src={require(`../characters/images/conditions/blind.png`)} alt=""
                                      className="condition-image"/>
                             </a>
-                            <a onClick={() => this.handleConditionToggle('isCharmed', this.state.conditions.isCharmed)}
+                            <a onClick={() => this.handleConditionToggle('isCharmed')}
                                className="padding8 waves-effect condition-button" id="charmed">
                                 <img src={require(`../characters/images/conditions/charmed.png`)} alt=""
                                      className="condition-image"/>
                             </a>
-                            <a onClick={() => this.handleConditionToggle('isDeaf', this.state.conditions.isDeaf)}
+                            <a onClick={() => this.handleConditionToggle('isDeaf')}
                                className="padding8 waves-effect condition-button" id="deaf">
                                 <img src={require(`../characters/images/conditions/deaf.png`)} alt=""
                                      className="condition-image"/>
                             </a>
-                            <a onClick={() => this.handleConditionToggle('isFrightened', this.state.conditions.isFrightened)}
+                            <a onClick={() => this.handleConditionToggle('isFrightened')}
                                className="padding8 waves-effect condition-button" id="frightened">
                                 <img src={require(`../characters/images/conditions/frightened.png`)} alt=""
                                      className="condition-image"/>
                             </a>
-                            <a onClick={() => this.handleConditionToggle('isGrappled', this.state.conditions.isGrappled)}
+                            <a onClick={() => this.handleConditionToggle('isGrappled')}
                                className="padding8 waves-effect condition-button" id="grappled">
                                 <img src={require(`../characters/images/conditions/grappled.png`)} alt=""
                                      className="condition-image"/>
                             </a>
-                            <a onClick={() => this.handleConditionToggle('isIncapacitated', this.state.conditions.isIncapacitated)}
+                            <a onClick={() => this.handleConditionToggle('isIncapacitated')}
                                className="padding8 waves-effect condition-button" id="incapacitated">
                                 <img src={require(`../characters/images/conditions/incapacitated.png`)} alt=""
                                      className="condition-image"/>
                             </a>
-                            <a onClick={() => this.handleConditionToggle('isInvisible', this.state.conditions.isInvisible)}
+                            <a onClick={() => this.handleConditionToggle('isInvisible')}
                                className="padding8 waves-effect condition-button" id="invisible">
                                 <img src={require(`../characters/images/conditions/invisible.png`)} alt=""
                                      className="condition-image"/>
                             </a>
-                            <a onClick={() => this.handleConditionToggle('isParalyzed', this.state.conditions.isParalyzed)}
+                            <a onClick={() => this.handleConditionToggle('isParalyzed')}
                                className="padding8 waves-effect condition-button" id="paralyzed">
                                 <img src={require(`../characters/images/conditions/paralyzed.png`)} alt=""
                                      className="condition-image"/>
                             </a>
-                            <a onClick={() => this.handleConditionToggle('isPetrified', this.state.conditions.isPetrified)}
+                            <a onClick={() => this.handleConditionToggle('isPetrified')}
                                className="padding8 waves-effect condition-button" id="petrified">
                                 <img src={require(`../characters/images/conditions/pertrified.png`)} alt=""
                                      className="condition-image"/>
                             </a>
-                            <a onClick={() => this.handleConditionToggle('isPoisoned', this.state.conditions.isPoisoned)}
+                            <a onClick={() => this.handleConditionToggle('isPoisoned')}
                                className="padding8 waves-effect condition-button" id="poisoned">
                                 <img src={require(`../characters/images/conditions/poisoned.png`)} alt=""
                                      className="condition-image"/>
                             </a>
-                            <a onClick={() => this.handleConditionToggle('isProne', this.state.conditions.isProne)}
+                            <a onClick={() => this.handleConditionToggle('isProne')}
                                className="padding8 waves-effect condition-button" id="prone">
                                 <img src={require(`../characters/images/conditions/prone.png`)} alt=""
                                      className="condition-image"/>
                             </a>
-                            <a onClick={() => this.handleConditionToggle('isRestrained', this.state.conditions.isRestrained)}
+                            <a onClick={() => this.handleConditionToggle('isRestrained')}
                                className="padding8 waves-effect condition-button" id="restrained">
                                 <img src={require(`../characters/images/conditions/restrained.png`)} alt=""
                                      className="condition-image"/>
                             </a>
-                            <a onClick={() => this.handleConditionToggle('isStunned', this.state.conditions.isStunned)}
+                            <a onClick={() => this.handleConditionToggle('isStunned')}
                                className="padding8 waves-effect condition-button" id="stunned">
                                 <img src={require(`../characters/images/conditions/stunned.png`)} alt=""
                                      className="condition-image"/>
                             </a>
-                            <a onClick={() => this.handleConditionToggle('isUnconscious', this.state.conditions.isUnconscious)}
+                            <a onClick={() => this.handleConditionToggle('isUnconscious')}
                                className="padding8 waves-effect condition-button" id="unconscious">
                                 <img src={require(`../characters/images/conditions/unconscious.png`)} alt=""
                                      className="condition-image"/>
                             </a>
                         </div>
+                        }
                     </li>
                 </div>
             </div>

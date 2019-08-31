@@ -42,15 +42,18 @@ class CreateCharacter extends Component {
           <h5 className="grey-text text-lighten-3">Create New Character</h5>
           <div className="input-field">
             <label htmlFor="name">Character Name</label>
-            <input className="grey-text text-lighten-3" type="text" id="name" onChange={this.handleChange}></input>
+            <input className="grey-text text-lighten-3" type="text" id="name" required
+                   onChange={this.handleChange}></input>
           </div>
           <div className="input-field text-lighten-3">
             <label htmlFor="class">Class</label>
-            <input className="grey-text text-lighten-3" type="text" id="class" onChange={this.handleChange}></input>
+            <input className="grey-text text-lighten-3" type="text" id="class" required
+                   onChange={this.handleChange}></input>
           </div>
           <div className="input-field">
             <label htmlFor="race">Race</label>
-            <input className="grey-text text-lighten-3" type="text" id="race" onChange={this.handleChange}></input>
+            <input className="grey-text text-lighten-3" type="text" id="race" required
+                   onChange={this.handleChange}></input>
           </div>
           <div className="input-field">
             <label htmlFor="imageLink">Image Link</label>
@@ -58,15 +61,12 @@ class CreateCharacter extends Component {
           </div>
           <div className="input-field">
             <label htmlFor="hp">HP</label>
-            <input className="grey-text text-lighten-3" type="number" id="hp" onChange={this.handleChange}></input>
+            <input className="grey-text text-lighten-3" type="number" id="hp" required
+                   onChange={this.handleChange}></input>
           </div>
           <div className="input-field">
             <label htmlFor="maxHp">maxHP</label>
-            <input className="grey-text text-lighten-3" type="number" id="maxHp" onChange={this.handleChange}></input>
-          </div>
-          <div className="input-field">
-            <label htmlFor="initiative">Initiative</label>
-            <input className="grey-text text-lighten-3" type="number" id="initiative" min="0" max="30"
+            <input className="grey-text text-lighten-3" type="number" id="maxHp" required
                    onChange={this.handleChange}></input>
           </div>
           <div className="input-field">

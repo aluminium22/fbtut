@@ -26,7 +26,9 @@ class EncounterCharacterList extends Component {
                                                         updateChar={this.props.updateChar}
                                                         auth={this.props.auth}
                                                         roll={this.props.roll}
-                                                        encounter={this.props.encounter}/>
+                                                        encounter={this.props.encounter}
+                                                        condition={this.props.condition}
+                                    />
                                 )
                             })
                         }
