@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from "react-router-dom";
 
 const border = {
     border: "1px solid #00000059"
@@ -21,22 +20,6 @@ class EncounterCharacter extends Component {
             hp: 0,
             damage: 0,
             showCondition: false,
-            // conditions: {
-            //     isBlind: false,
-            //     isCharmed: false,
-            //     isDeaf: false,
-            //     isFrightened: false,
-            //     isGrappled: false,
-            //     isIncapacitated: false,
-            //     isInvisible: false,
-            //     isParalyzed: false,
-            //     isPetrified: false,
-            //     isPoisoned: false,
-            //     isProne: false,
-            //     isRestrained: false,
-            //     isStunned: false,
-            //     isUnconscious: false,
-            // }
         }
     }
 

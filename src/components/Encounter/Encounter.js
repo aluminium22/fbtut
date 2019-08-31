@@ -111,7 +111,10 @@ class Encounter extends Component {
 
 
     render() {
-        let {encounter, auth} = this.props;
+        let {encounter, auth, uid} = this.props;
+        if (!uid) {
+            return <Redirect to='/signin'/>
+        }
         if (encounter) {
             if (this.state.characters) {
                 if (!auth.uid) {
@@ -199,13 +202,14 @@ const mapStateToProps = (state, ownProps) => {
     return {
         encounterId: id,
         encounter: encounter,
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        uid: state.auth.uid
     }
 };
 export default compose(
     connect(mapStateToProps, mapDispatchtoProps),
     firestoreConnect((props) => {
-        if (!props.auth.uid) return [];
+        if (!props.uid) return [];
         return [{
             collection: 'encounters',
             doc: props.encounterId,

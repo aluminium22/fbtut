@@ -69,11 +69,9 @@ class UpdateCharacter extends Component {
 
     render() {
         console.log('history', this.props.history);
-        const {auth} = this.props.auth;
-        if (auth) {
-            if (!auth.uid) {
-                return <Redirect to='/signin'/>
-            }
+        const {uid} = this.props;
+        if (!uid) {
+            return <Redirect to='/signin'/>
         }
         return (
             <div className="container padding8">
@@ -143,14 +141,15 @@ const mapStateToProps = (state, ownProps) => {
     return {
         characterId: id,
         character: character,
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        uid: state.auth.uid
     }
 };
 
 export default compose(
+    connect(mapStateToProps, mapDispatchtoProps),
     firestoreConnect((props) => {
-        return [{collection: 'characters', where: [['userId', '==', firebase.auth().currentUser.uid]]}]
+        return [{collection: 'characters', where: [['userId', '==', props.uid]]}]
         }
-    ),
-    connect(mapStateToProps, mapDispatchtoProps)
+    )
 )(UpdateCharacter);

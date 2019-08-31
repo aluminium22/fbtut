@@ -24,8 +24,8 @@ class Characters extends Component {
     };
 
     render() {
-        const { characters, auth } = this.props;
-        if (!auth.uid) {
+        const {uid, characters, auth} = this.props;
+        if (!uid) {
             return <Redirect to='/signin'/>
         }
         if (characters) {
@@ -81,12 +81,14 @@ const mapDispatchtoProps = (dispatch) => {
 const mapStateToProps = (state) => {
     return{
         characters: state.firestore.ordered.characters,
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        uid: state.auth.uid
     }};
 export default compose(
+    connect(mapStateToProps, mapDispatchtoProps),
     firestoreConnect((props) => {
-        return [hasUser()]
+        console.log('in firestorestupid, ', props);
+        return [{collection: 'characters', where: [['userId', '==', props.uid]]}]
         }
-    ),
-    connect(mapStateToProps, mapDispatchtoProps)
+    )
 )(Characters);

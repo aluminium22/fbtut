@@ -18,11 +18,11 @@ class StageEncounter extends Component {
     };
 
     render() {
-        const {characters, auth} = this.props;
+        const {uid, characters} = this.props;
+        if (!uid) {
+            return <Redirect to='/signin'/>
+        }
         if (characters) {
-            if (!auth.uid) {
-                return <Redirect to='/signin'/>
-            }
             return (
                 <div className='dashboard container'>
                     <span className='page-header'>Add To Your Encounter</span>
@@ -43,15 +43,6 @@ class StageEncounter extends Component {
     }
 }
 
-
-const hasUser = () => {
-    if (firebase.auth().currentUser) {
-        return ({collection: 'characters', where: [['masterId', '==', firebase.auth().currentUser.uid]]})
-    } else {
-        return 'characters';
-    }
-
-};
 const mapDispatchtoProps = (dispatch) => {
     return {
         updateEncounterCharacter: (character) => dispatch(updateEncounterCharacter(character)),
@@ -63,12 +54,13 @@ const mapDispatchtoProps = (dispatch) => {
 const mapStateToProps = (state) => {
     return{
         characters: state.firestore.ordered.characters,
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        uid: state.auth.uid
     }};
 export default compose(
     connect(mapStateToProps, mapDispatchtoProps),
     firestoreConnect((props) => {
-        return [hasUser()]
+        return [{collection: 'characters', where: [['masterId', '==', props.uid]]}]
         }
     )
 )(StageEncounter);

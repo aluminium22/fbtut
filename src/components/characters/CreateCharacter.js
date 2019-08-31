@@ -30,12 +30,10 @@ class CreateCharacter extends Component {
   };
 
   render() {
-    const { auth } = this.props.auth;
-    if(auth){
-      if(!auth.uid){
+    const {uid} = this.props;
+    if (!uid) {
         return <Redirect to='/signin' />
       }
-    }
     return (
       <div className="container">
         <form className=" grey darken-4" onSubmit={this.handleSubmit}>
@@ -90,7 +88,8 @@ const mapDispatchtoProps = (dispatch) => {
 };
 const mapStateToProps = (state) => {
   return{
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    uid: state.auth.uid
   }};
 
 export default connect(mapStateToProps, mapDispatchtoProps)(CreateCharacter);

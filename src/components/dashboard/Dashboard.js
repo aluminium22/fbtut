@@ -9,8 +9,8 @@ import firebase from '../../config/fbConfig'
 
 class Dashboard extends Component {
   render() {
-    const { characters, auth } = this.props;
-    if(!auth.uid){
+    const {characters, uid, auth} = this.props;
+    if (!uid) {
       return <Redirect to='/signin' />
     }
     return(
@@ -36,7 +36,7 @@ class Dashboard extends Component {
             </div>
           </div>
           <div className='col s12 m12 l6 center-align hide-on-med-and-down'>
-            <CharacterList characters={characters} auth={auth}/>
+            <CharacterList characters={characters}/>
           </div>
         </div>
       </div>
@@ -44,24 +44,17 @@ class Dashboard extends Component {
   }
 }
 
-const hasUser = () => {
-  if (firebase.auth().currentUser) {
-    return ({collection: 'characters', where: [['userId', '==', firebase.auth().currentUser.uid]]})
-  } else {
-    return 'characters';
-  }
-
-};
 
 const mapStateToProps = (state) => {
   return{
   characters: state.firestore.ordered.characters,
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    uid: state.auth.uid
 }};
 export default compose(
+    connect(mapStateToProps),
     firestoreConnect((props) => {
-      return [hasUser()]
+      return [{collection: 'characters', where: [['userId', '==', props.uid]]}]
         }
     ),
-  connect(mapStateToProps)
 )(Dashboard);
