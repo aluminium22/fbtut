@@ -209,7 +209,6 @@ const mapStateToProps = (state, ownProps) => {
 export default compose(
     connect(mapStateToProps, mapDispatchtoProps),
     firestoreConnect((props) => {
-        if (!props.uid) return [];
         return [{
             collection: 'encounters',
             doc: props.encounterId,
