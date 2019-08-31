@@ -54,7 +54,9 @@ const mapStateToProps = (state) => {
 export default compose(
     connect(mapStateToProps),
     firestoreConnect((props) => {
-      return [{collection: 'characters', where: [['userId', '==', props.uid]]}]
+      if (props.uid) {
+        return [{collection: 'characters', where: [['userId', '==', props.uid]]}]
+      }
         }
     ),
 )(Dashboard);

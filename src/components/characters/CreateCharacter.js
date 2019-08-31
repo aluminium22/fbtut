@@ -26,7 +26,7 @@ class CreateCharacter extends Component {
     e.preventDefault();
     console.log('state to submit ', this.state);
     // console.log(this.state);
-    this.props.createCharacter(this.state);
+      this.props.createCharacter(this.state, this.props.history);
   };
 
   render() {
@@ -83,7 +83,7 @@ class CreateCharacter extends Component {
 }
 const mapDispatchtoProps = (dispatch) => {
   return {
-    createCharacter: (character) => dispatch(createCharacter(character))
+      createCharacter: (character, history) => dispatch(createCharacter(character, history))
   }
 };
 const mapStateToProps = (state) => {

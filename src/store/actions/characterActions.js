@@ -28,7 +28,7 @@ export const deleteCharacter = (character, id, history) => {
   }
 };
 
-export const createCharacter = (character) => {
+export const createCharacter = (character, history) => {
   return (dispatch, getState) => {
     //make asunc call to database
     let user = firebase.auth().currentUser;
@@ -41,6 +41,7 @@ export const createCharacter = (character) => {
       playedRound: false,
       createdAt: new Date()
     }).then(() => {
+      history.push("/characters");
       dispatch({ type: 'CREATE_CHARACTER', character });
     }).catch((error) => {
       dispatch({ type: 'CREATE_CHARACTER_ERROR', error });
