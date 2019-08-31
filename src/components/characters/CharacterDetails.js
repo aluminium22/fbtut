@@ -26,11 +26,12 @@ class CharacterDetails extends Component {
     };
 
     render() {
-        const {auth, character, characterId} = this.props;
+        const {auth, uid, character, characterId} = this.props;
+        console.log('propppas', this.props);
+        if (!uid) {
+            return <Redirect to='/signin'/>
+        }
         if (character) {
-            if (!auth.uid) {
-                return <Redirect to='/signin'/>
-            }
             return (
                 <div className="container section character-details">
                     <div className='row'>
@@ -84,8 +85,18 @@ class CharacterDetails extends Component {
                 </div>
             )
         }
+
     }
 }
+
+const hasUser = () => {
+    if (firebase.auth().currentUser) {
+        return ({collection: 'characters', where: [['userId', '==', firebase.auth().currentUser.uid]]})
+    } else {
+        setTimeout(hasUser(), 300)
+    }
+
+};
 
 const mapDispatchtoProps = (dispatch) => {
     return {
@@ -100,17 +111,18 @@ const mapStateToProps = (state, ownProps) => {
   const characters = state.firestore.data.characters;
     let character = characters ? characters[id] : null;
   return{
+      uid: state.auth.uid,
       characterId: id,
     character: character,
     auth: state.firebase.auth
   }
 };
 export default compose(
+    connect(mapStateToProps, mapDispatchtoProps),
     firestoreConnect((props) => {
-        return [{collection: 'characters', where: [['userId', '==', firebase.auth().currentUser.uid]]}]
+        return [{collection: 'characters', where: [['userId', '==', props.uid]]}]
         }
-    ),
-    connect(mapStateToProps, mapDispatchtoProps)
+    )
 )(CharacterDetails);
 
 

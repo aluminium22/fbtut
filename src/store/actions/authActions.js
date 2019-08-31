@@ -7,8 +7,9 @@ export const signIn = (credentials) => {
     firebase.auth().signInWithEmailAndPassword(
       credentials.email,
         credentials.password,
-    ).then(() => {
-      dispatch({type: 'LOGIN_SUCCESS'})
+    ).then((response) => {
+      const uid = response.user.uid;
+      dispatch({type: 'LOGIN_SUCCESS', uid})
     }).catch((err) => {
       dispatch({type: 'LOGIN_ERROR', err});
     })
@@ -51,6 +52,12 @@ export const signUp = (newUser) => {
         dispatch({type: 'SIGNUP_ERROR', err})
       })
     })
+  }
+};
+
+export const reAuth = (uid) => {
+  return (dispatch, getState) => {
+    dispatch({type: 'RE_AUTH', uid})
   }
 };
 

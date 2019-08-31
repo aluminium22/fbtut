@@ -3,7 +3,9 @@ const initState = {
   uid: null
 };
 
+const sessionStore = () => {
 
+};
 
 const authReducer = (state = initState, action) => {
   switch(action.type){
@@ -14,17 +16,23 @@ const authReducer = (state = initState, action) => {
         authError: 'Login Failed'
       };
     case 'LOGIN_SUCCESS':
-      console.log('login success');
+      console.log('login success', action);
       return{
         ...state,
+        uid: action.uid,
         authError: null
+      };
+    case 'RE_AUTH':
+      console.log('login reauth', action);
+      return {
+        uid: action.uid
       };
     case 'SIGNOUT_SUCCESS':
       console.log('signout success');
       return{
         ...state
       };
-    case 'SIGNUP _SUCCESS':
+    case 'SIGNUP_SUCCESS':
       console.log('signup success');
       return{
         ...state,

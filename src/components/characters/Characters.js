@@ -25,10 +25,10 @@ class Characters extends Component {
 
     render() {
         const { characters, auth } = this.props;
+        if (!auth.uid) {
+            return <Redirect to='/signin'/>
+        }
         if (characters) {
-            if (!auth.uid) {
-                return <Redirect to='/signin'/>
-            }
             return (
                 <div className='dashboard container'>
                     <div className='row'>

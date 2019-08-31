@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Notifications from "./Notifications";
 import CharacterList from "../characters/CharacterList";
 import { connect } from 'react-redux';
 import { compose } from 'redux'
@@ -21,7 +20,7 @@ class Dashboard extends Component {
             <div>
               <ul>
                 <Link className="waves-effect red darken-4 btn-large" to={'/master'}>
-                  <span>Master</span>
+                  <span>Your Encounter</span>
                 </Link>
               </ul>
               <ul>

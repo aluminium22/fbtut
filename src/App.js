@@ -12,10 +12,24 @@ import StageEncounter from "./components/Encounter/StageEncounter";
 import JoinMaster from "./components/characters/JoinMaster";
 import Dice from "./components/dice/Dice";
 import UpdateCharacter from "./components/characters/UpdateCharacter";
-import Encounter from "./components/Encounter/Encounter";
+import firebase from "firebase";
+import {compose} from "redux";
+import {firestoreConnect} from "react-redux-firebase";
+import {connect} from "react-redux";
+import {detachMaster} from "./store/actions/characterActions";
+import {reAuth} from "./store/actions/authActions";
+import {saveState} from "./localStorage";
 
 
 class App extends Component {
+
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(() => {
+      console.log('auth garbage', this.props);
+      this.props.reAuth(this.props.auth.uid)
+    })
+  }
+
   render() {
     return (
       <BrowserRouter>
@@ -24,7 +38,6 @@ class App extends Component {
           <Switch>
             <Route exact path='/' component={Dashboard}/>
             <Route path='/character/:id' component={CharacterDetails}/>
-              <Route path='/encounter/:id' component={Encounter}/>
             <Route path='/characters' component={Characters}/>
               <Route path='/join-master' component={JoinMaster}/>
             <Route path='/master' component={Master}/>
@@ -41,5 +54,17 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapDispatchtoProps = (dispatch) => {
+  return {
+    reAuth: (auth) => dispatch(reAuth(auth)),
+
+  }
+};
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth
+  }
+};
+export default connect(mapStateToProps, mapDispatchtoProps)(App);
 
