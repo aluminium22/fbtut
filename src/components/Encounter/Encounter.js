@@ -46,24 +46,25 @@ class Encounter extends Component {
         this.props.updateEncounterChar(this.props.encounter, character)
     };
 
-    handleUpdateTurn = (encounter) => {
+    handleUpdateTurn = () => {
         // this.setState({
         //     characters: this.sortCharacter(this.state.characters)
         // })
         console.log('characters- state ', this.state.characters);
         let chara = null;
-        for (let i = encounter.characters.length - 1; i >= 0; i--) {
-            if (!encounter.characters[i].playedRound) {
-                chara = encounter.characters[i];
+        for (let i = this.state.characters.length - 1; i >= 0; i--) {
+            if (!this.state.characters[i].playedRound) {
+                chara = this.state.characters[i];
             }
         }
         if (!chara) {
-            encounter.characters.map(character => {
-                this.props.setHasPlayed(character, encounter.id, false)
+            this.state.characters.map(character => {
+                this.props.setHasPlayed(character, this.props.encounter.id, false)
             });
-            chara = encounter.characters[0];
+            chara = this.state.characters[0];
         }
-        this.props.updateTurn(encounter, chara, true);
+
+        this.props.updateTurn(this.props.encounter, chara, true);
     };
 
     clearTurn = (encounter) => {
@@ -135,7 +136,7 @@ class Encounter extends Component {
                         </div>
                         {auth.uid === encounter.characters[0].masterId &&
                         <div className="padding8">
-                            <a onClick={() => this.handleUpdateTurn(this.props.encounter)}
+                            <a onClick={this.handleUpdateTurn}
                                className="waves-effect red darken-4 waves-light btn">
                                 {this.props.encounter.turn &&
                                 <span>Next</span>

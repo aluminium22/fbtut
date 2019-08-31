@@ -205,7 +205,7 @@ class EncounterCharacter extends Component {
                             <div className='flex-col'>
                                 {(this.props.character.hp !== this.state.hp) || (this.state.damage !== this.props.character.damage && this.props.auth.uid === this.props.character.masterId) &&
                                 <a className="waves-effect grey darken-4 waves-light btn-small"
-                                   onClick={this.submitCharUpdate}>Update</a>
+                                   onClick={this.submitCharUpdate}>HP</a>
                                 }
                                 <div className="display-inline-block">
                                     {this.props.character.currentRoll &&
