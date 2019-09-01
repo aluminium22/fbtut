@@ -53,9 +53,11 @@ class EncounterCharacter extends Component {
     }
 
     showConditionToggle() {
-        this.setState({
-            showCondition: !this.state.showCondition
-        })
+        if ((this.props.character.userId === this.props.uid) || (this.props.character.masterId === this.props.uid)) {
+            this.setState({
+                showCondition: !this.state.showCondition
+            })
+        }
     }
 
     handleConditionToggle(value) {
@@ -83,7 +85,9 @@ class EncounterCharacter extends Component {
     }
 
     roll() {
-        this.props.roll(this.props.character)
+        if (this.props.character.userId === this.props.uid) {
+            this.props.roll(this.props.character)
+        }
     }
 
     render() {
@@ -203,9 +207,13 @@ class EncounterCharacter extends Component {
                                 </div>
                             </div>
                             <div className='flex-col'>
-                                {(this.props.character.hp !== this.state.hp) || (this.state.damage !== this.props.character.damage && this.props.auth.uid === this.props.character.masterId) &&
+                                {(this.props.character.hp !== this.state.hp) &&
                                 <a className="waves-effect grey darken-4 waves-light btn-small"
-                                   onClick={this.submitCharUpdate}>HP</a>
+                                   onClick={this.submitCharUpdate}>SET</a>
+                                }
+                                {(this.state.damage !== this.props.character.damage && (this.props.character.masterId === this.props.character.userId)) &&
+                                <a className="waves-effect grey darken-4 waves-light btn-small"
+                                   onClick={this.submitCharUpdate}>SET</a>
                                 }
                                 <div className="display-inline-block">
                                     {this.props.character.currentRoll &&

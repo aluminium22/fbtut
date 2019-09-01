@@ -28,6 +28,7 @@ class EncounterCharacterList extends Component {
                                                         roll={this.props.roll}
                                                         encounter={this.props.encounter}
                                                         condition={this.props.condition}
+                                                        uid={this.props.uid}
                                     />
                                 )
                             })

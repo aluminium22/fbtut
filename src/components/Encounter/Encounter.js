@@ -131,6 +131,7 @@ class Encounter extends Component {
                                                         encounter={encounter.turn}
                                                         characters={this.state.characters}
                                                         condition={this.handleConditionToggle}
+                                                        uid={this.props.uid}
                                 />
                             </div>
                         </div>
