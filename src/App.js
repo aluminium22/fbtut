@@ -25,7 +25,6 @@ class App extends Component {
       this.props.reAuth(this.props.auth.uid)
     })
   }
-
   render() {
     return (
       <BrowserRouter>

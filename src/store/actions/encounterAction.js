@@ -92,7 +92,6 @@ export const setHasPlayed = (character, encounterId, value) => {
 
 export const updateTurn = (encounter, character, value) => {
     return (dispatch, getState) => {
-        console.log('vale', value);
         firebase.firestore().collection(`encounters`).doc(encounter.id).update({
             turn: character
         }).then(() => {

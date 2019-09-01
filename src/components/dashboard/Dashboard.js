@@ -8,6 +8,8 @@ import firebase from '../../config/fbConfig'
 
 
 class Dashboard extends Component {
+
+
   render() {
     const {characters, uid, auth} = this.props;
     if (!uid) {

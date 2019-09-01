@@ -62,13 +62,15 @@ class Dice extends Component {
     }
 
     handleModSet = (e) => {
-        this.setState({mod: e})
+        this.setState({mod: e});
+        this.handleHoldEnd()
     };
 
     handlePressDice = (v) => {
         this.setState({
             dieMax: v
-        })
+        });
+        this.handleRelease(v)
     };
 
     handleHoldStartDice = () => {
@@ -76,10 +78,6 @@ class Dice extends Component {
             transition: 'scale-in',
         });
         console.log('dice start',)
-    };
-
-    handleHold = () => {
-        console.log('hold')
     };
 
     handleHoldEnd = (die) => {
@@ -150,9 +148,10 @@ class Dice extends Component {
             } else {
                 rolls.rollCollection.push({isNat: false, roll: rollResult});
             }
-            rolls.sumArray.push(Dice.findMaxAndLow(this.state.isImbrogliando, this.state.ImbrogliandoType, this.state.dieMax) + this.state.mod)
+            rolls.sumArray.push(rollResult)
         }
         rolls.currentRoll = rolls.rollCollection[rolls.rollCollection.length - 1];
+        console.log('sum array', rolls);
         rolls.sumRoll = rolls.sumArray.reduce(reducer);
         if (rolls.rollCollection.length === 1) {
             if ((rolls.sumRoll - this.state.mod) === this.state.dieMax) {
@@ -235,7 +234,7 @@ class Dice extends Component {
                         </div>
                     </div>
                 </div>
-                <div className='row flex-center-row' style={{margin: 0 + 'px'}}>
+                <div className='row flex-center-row' onClick={this.handleHoldStartDice} style={{margin: 0 + 'px'}}>
                     <div className='center-align valign-wrapper flex-tag'>
                         <span className={'center-align font14 red-text text-darken-2'}>Modifier</span>
                         <span className='grey-text text-lighten-3 center-align font14'>
@@ -316,13 +315,7 @@ class Dice extends Component {
                                                         <DieButton
                                                             value={dice}
                                                             className="waves-effect waves-red btn-flat grey-text text-lighten-2 height44 dice-button"
-                                                            repeatDelay={300}
-                                                            repeatInterval={32}
                                                             onPressDice={this.handlePressDice}
-                                                            onHoldStart={this.handleHoldStartDice}
-                                                            onHold={this.handleHold}
-                                                            onHoldEnd={this.handleHoldEnd}
-                                                            onRelease={this.handleRelease}
                                                         />
                                                     </div>
                                                 )
@@ -341,7 +334,7 @@ class Dice extends Component {
                                         {
                                             ob.numbers.map(number => {
                                                 return (
-                                                    <div onPointerOver={() => this.handleModSet(number)}
+                                                    <div onClick={() => this.handleModSet(number)}
                                                          className='col s2 height44 flex flex-align-items displayGrid'
                                                          key={number} style={{margin: 0 + 'px'}}>
                                                         <a className="waves-effect waves-light red darken-1 btn">{number}</a>

@@ -22,31 +22,16 @@ const rrfConfig = {
 // Create store with reducers and initial state
 
 const customMiddleWare = store => next => action => {
-  console.log("Middleware triggered:", action);
   switch (action.type) {
     case '@@reactReduxFirebase/AUTHENTICATION_INIT_STARTED':
       const newId = loadState();
-      console.log('-----', newId);
       if (newId) {
-        console.log('gogo', action);
         const uid = newId;
         store.dispatch({type: 'RE_AUTH', uid})
       }
       break;
-    case 'LOGIN_SUCCESS': {
-      console.log('in login', action);
-      if (action.uid) {
-        console.log('act', action.uid);
-        const uid = action.uid;
-        saveState(uid);
-        store.dispatch({type: 'RE_AUTH', uid})
-      }
-    }
-      break;
     case 'RE_AUTH':
-      console.log('(loadState() !== action.uid', loadState(), action.uid);
       if (loadState() !== action.uid) {
-        console.log('act', action.uid);
         const uid = action.uid;
         saveState(uid);
         store.dispatch({type: 'RE_AUTH', uid})
@@ -57,8 +42,7 @@ const customMiddleWare = store => next => action => {
 
 console.log('auth ');
 const initialState = {};
-const store = createStore(rootReducer, initialState, compose(applyMiddleware(thunk, customMiddleWare),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
+const store = createStore(rootReducer, initialState, applyMiddleware(thunk, customMiddleWare));
 
 const rrfProps = {
   firebase,

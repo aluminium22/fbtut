@@ -1,5 +1,4 @@
 export const loadState = () => {
-    console.log('LOAD STATE');
     try {
         const serializedState = localStorage.getItem('authUid');
         if (serializedState === null) {
@@ -12,7 +11,6 @@ export const loadState = () => {
 };
 
 export const saveState = (state) => {
-    console.log('SAVE STATE', state);
     try {
         const serializedState = JSON.stringify(state);
         localStorage.setItem('authUid', serializedState);
@@ -22,7 +20,6 @@ export const saveState = (state) => {
 };
 
 export const clearState = () => {
-    console.log('CLEAR STATE');
     try {
         localStorage.clear();
     } catch {

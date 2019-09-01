@@ -33,19 +33,23 @@ class SignUp extends Component {
           <h5 className="grey-text text-darken-3">Sign Up</h5>
           <div className="input-field">
             <label htmlFor="email">Email</label>
-            <input required type="email" id="email" onChange={this.handleChange}></input>
+            <input className="grey-text text-lighten-3" required type="email" id="email"
+                   onChange={this.handleChange}></input>
           </div>
           <div className="input-field">
             <label htmlFor="password">Password</label>
-            <input required type="password" id="password" onChange={this.handleChange}></input>
+            <input className="grey-text text-lighten-3" required type="password" id="password"
+                   onChange={this.handleChange}></input>
           </div>
           <div className="input-field">
             <label htmlFor="firstName">First Name</label>
-            <input required type="text" id="firstName" onChange={this.handleChange}></input>
+            <input className="grey-text text-lighten-3" required type="text" id="firstName"
+                   onChange={this.handleChange}></input>
           </div>
           <div className="input-field">
             <label htmlFor="lastName">Last Name</label>
-            <input required type="text" id="lastName" onChange={this.handleChange}></input>
+            <input className="grey-text text-lighten-3" required type="text" id="lastName"
+                   onChange={this.handleChange}></input>
           </div>
           <div className='input-field'>
             <button className="btn red darken-2 z-depth-0">Sign up</button>
