@@ -98,7 +98,7 @@ class Dice extends Component {
         this.setState({transition: 'scale-out'});
         // this.setState({roll:e})
         console.log('cancel release', die);
-        const rolls = this.rollDice();
+        const rolls = this.rollDice(die);
         this.setState({
             isNat: rolls.isNat,
             roll: rolls.sumRoll,
@@ -133,7 +133,7 @@ class Dice extends Component {
         return Math.ceil(Math.random() * (range.roof - range.floor) + range.floor);
     }
 
-    rollDice = () => {
+    rollDice = (dieMax) => {
         const reducer = (accumulator, currentValue) => accumulator + currentValue;
         let rolls = {};
         rolls.rollCollection = [];
@@ -142,8 +142,8 @@ class Dice extends Component {
         rolls.sumRoll = 0;
         rolls.isNat = false;
         for (let i = 0; i < this.state.quantity; i++) {
-            let rollResult = Dice.findMaxAndLow(this.state.isImbrogliando, this.state.ImbrogliandoType, this.state.dieMax) + this.state.mod;
-            if ((rollResult - this.state.mod) === this.state.dieMax) {
+            let rollResult = Dice.findMaxAndLow(this.state.isImbrogliando, this.state.ImbrogliandoType, dieMax) + this.state.mod;
+            if ((rollResult - this.state.mod) === dieMax) {
                 rolls.rollCollection.push({isNat: true, roll: rollResult});
             } else {
                 rolls.rollCollection.push({isNat: false, roll: rollResult});
@@ -154,7 +154,7 @@ class Dice extends Component {
         console.log('sum array', rolls);
         rolls.sumRoll = rolls.sumArray.reduce(reducer);
         if (rolls.rollCollection.length === 1) {
-            if ((rolls.sumRoll - this.state.mod) === this.state.dieMax) {
+            if ((rolls.sumRoll - this.state.mod) === dieMax) {
                 rolls.isNat = true;
             }
         }
@@ -234,8 +234,8 @@ class Dice extends Component {
                         </div>
                     </div>
                 </div>
-                <div className='row flex-center-row' onClick={this.handleHoldStartDice} style={{margin: 0 + 'px'}}>
-                    <div className='center-align valign-wrapper flex-tag'>
+                <div className='row flex-center-row' style={{margin: 0 + 'px'}}>
+                    <div onClick={this.handleHoldStartDice} className='center-align valign-wrapper flex-tag'>
                         <span className={'center-align font14 red-text text-darken-2'}>Modifier</span>
                         <span className='grey-text text-lighten-3 center-align font14'>
                             <span className={`padding8 ${this.toggleImbrogliareClass()}`}> + </span>
