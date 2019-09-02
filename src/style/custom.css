@@ -263,6 +263,19 @@ li.collection-item.z-depth-2.margin8.grey.darken-3 {
     background-color: #282828;
 }
 
+.ac {
+    height: 24px;
+    width: 24px;
+    background-color: #b71c1c;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    font-weight: bold;
+}
+
 .hp {
     width: 30%;
     color: #e0e0e0;

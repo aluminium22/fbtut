@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
+import MessageView from './components/layout/MessageView';
 import Dashboard from './components/dashboard/Dashboard';
 import CharacterDetails from "./components/characters/CharacterDetails";
 import Master from "./components/masters/Master"
@@ -23,13 +24,16 @@ class App extends Component {
     firebase.auth().onAuthStateChanged(() => {
       console.log('auth garbage', this.props);
       this.props.reAuth(this.props.auth.uid)
-    })
+    });
+
   }
+
   render() {
     return (
       <BrowserRouter>
         <div className="App">
           <Navbar />
+          <MessageView/>
           <Switch>
             <Route exact path='/' component={Dashboard}/>
             <Route path='/character/:id' component={CharacterDetails}/>

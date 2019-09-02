@@ -18,15 +18,15 @@ class Dashboard extends Component {
     return(
       <div className='dashboard container'>
         <div className='row'>
-          <div className='col s12 m12 l6 center-align'>
+          <div className='col s12 center-align'>
             <div>
               <ul>
                 <Link className="waves-effect red darken-4 btn-large" to={'/master'}>
-                  <span>Your Encounter</span>
+                  <span>GM Options</span>
                 </Link>
               </ul>
               <ul>
-                <Link className="waves-effect red darken-4 btn-large hide-on-large-only" to={'/characters'}>
+                <Link className="waves-effect red darken-4 btn-large " to={'/characters'}>
                   <span>Your Characters</span>
                 </Link>
               </ul>
@@ -36,9 +36,6 @@ class Dashboard extends Component {
                 </Link>
               </ul>
             </div>
-          </div>
-          <div className='col s12 m12 l6 center-align hide-on-med-and-down'>
-            <CharacterList characters={characters}/>
           </div>
         </div>
       </div>
@@ -53,12 +50,4 @@ const mapStateToProps = (state) => {
     auth: state.firebase.auth,
     uid: state.auth.uid
 }};
-export default compose(
-    connect(mapStateToProps),
-    firestoreConnect((props) => {
-      if (props.uid) {
-        return [{collection: 'characters', where: [['userId', '==', props.uid]]}]
-      }
-        }
-    ),
-)(Dashboard);
+export default connect(mapStateToProps)(Dashboard);

@@ -1,5 +1,5 @@
 const initState = {
-  authError: null,
+    message: null,
   uid: null
 };
 
@@ -13,36 +13,43 @@ const authReducer = (state = initState, action) => {
       console.log('login error');
       return {
         ...state,
-        authError: 'Login Failed'
+          message: 'Rolled a nat 1 on that signup'
       };
     case 'LOGIN_SUCCESS':
       console.log('login success', action);
       return{
         ...state,
         uid: action.uid,
-        authError: null
+          message: 'Login Successful, high login modifier there'
       };
     case 'RE_AUTH':
       console.log('login reauth', action);
       return {
-        uid: action.uid
+          uid: action.uid,
+          message: null
       };
     case 'SIGNOUT_SUCCESS':
-      console.log('signout success');
+        console.log('signout success, nat 20!');
       return{
-        ...state
+          ...state,
+          message: 'Successfully signed out, nat 20!'
       };
     case 'SIGNUP_SUCCESS':
-      console.log('signup success');
+        console.log('signup success, nat 20!');
       return{
         ...state,
-        authError: null
+          message: 'sign up successful, nat 20!'
       };
     case 'SIGNUP_ERROR':
-      console.log('signup error', action.err);
-      return{
+        return {
+            ...state,
+            message: action.error.message
+        };
+      case 'MESSAGE_AUTH':
+          console.log('MESSAGE', action);
+          return {
         ...state,
-        authError: action.err.message
+              message: action.message
       };
     default:
       return state;

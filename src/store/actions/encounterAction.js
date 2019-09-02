@@ -170,3 +170,9 @@ export const getEncounter = (character, history) => {
 
     }
 };
+
+export const updateMessage = (message) => {
+    return (dispatch, getState) => {
+        dispatch({type: 'MESSAGE_ENCOUNTER', message})
+    }
+};

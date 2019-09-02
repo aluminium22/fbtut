@@ -91,6 +91,7 @@ class EncounterCharacter extends Component {
     }
 
     render() {
+        console.log('ac---->', this.props.character.ac);
         return (
             <div className={`scale-transition ${this.renderStyle()}`}>
                 <div className={`flex flex-space-between flex-align-items scale-transition`}>
@@ -230,6 +231,7 @@ class EncounterCharacter extends Component {
                         </div>
                         {this.state.showCondition &&
                         <div className="display-inline-block">
+                            <div className='text-bold grey-text text-lighten-2'>AC: {this.props.character.ac}</div>
                             <a onClick={() => this.handleConditionToggle('isBlind')}
                                className="padding8 waves-effect condition-button" id="blind">
                                 <img src={require(`../characters/images/conditions/blind.png`)} alt=""

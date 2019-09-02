@@ -37,7 +37,7 @@ class CharacterDetails extends Component {
                     <div className='row'>
                         <div className='col s12 m6 center-align'>
                             <Link className="waves-effect red darken-4 btn-large" to={'/create'}>
-                                <span>Encounter</span>
+                                <span>Create Character</span>
                             </Link>
                         </div>
                         <div className='col s12 m6 center-align'>
@@ -81,7 +81,19 @@ class CharacterDetails extends Component {
         } else {
             return (
                 <div className="container center">
-                    <p> Loading </p>
+                    <div className="preloader-wrapper big active">
+                        <div className="spinner-layer spinner-red-only">
+                            <div className="circle-clipper left">
+                                <div className="circle"></div>
+                            </div>
+                            <div className="gap-patch">
+                                <div className="circle"></div>
+                            </div>
+                            <div className="circle-clipper right">
+                                <div className="circle"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             )
         }
@@ -89,14 +101,6 @@ class CharacterDetails extends Component {
     }
 }
 
-const hasUser = () => {
-    if (firebase.auth().currentUser) {
-        return ({collection: 'characters', where: [['userId', '==', firebase.auth().currentUser.uid]]})
-    } else {
-        setTimeout(hasUser(), 300)
-    }
-
-};
 
 const mapDispatchtoProps = (dispatch) => {
     return {

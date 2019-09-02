@@ -11,6 +11,7 @@ class UpdateCharacter extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            ac: 0,
             id: props.characterId,
             name: '',
             class: '',
@@ -21,17 +22,7 @@ class UpdateCharacter extends Component {
             initiative: 0,
             notes: ''
         };
-        // firebase.auth().onAuthStateChanged(() =>{
-        //     this.setState({
-        //         name: this.props.character.name,
-        //         class: this.props.character.class,
-        //         race: this.props.character.race,
-        //         hp: this.props.character.hp,
-        //         maxHp: this.props.character.maxHp,
-        //         initiative: this.props.character.initiative,
-        //         notes: this.props.character.notes
-        //     })
-        // });
+
     }
 
     isActive(value) {
@@ -45,13 +36,15 @@ class UpdateCharacter extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.character !== this.props.character) {
             this.setState({
+                ac: this.props.character.ac ? this.props.character.ac : 0,
                 name: this.props.character.name,
                 class: this.props.character.class,
                 race: this.props.character.race,
                 imageLink: this.props.character.imageLink,
-                hp: this.props.character.hp,
+                hp: this.props.character.ac ? this.props.character.hp : this.props.character.maxHp,
                 maxHp: this.props.character.maxHp,
                 initiative: this.props.character.initiative,
+                encounterId: this.props.character.encounterId,
                 notes: this.props.character.notes
             })
         }
@@ -68,7 +61,6 @@ class UpdateCharacter extends Component {
     };
 
     render() {
-        console.log('history', this.props.history);
         const {uid} = this.props;
         if (!uid) {
             return <Redirect to='/signin'/>
@@ -98,19 +90,13 @@ class UpdateCharacter extends Component {
                                onChange={this.handleChange}></input>
                     </div>
                     <div className="input-field">
-                        <label className={this.isActive(this.state.hp)} htmlFor="hp">HP</label>
-                        <input className="grey-text text-lighten-3" value={this.state.hp} type="number" id="hp"
+                        <label className={this.isActive(this.state.hp)} htmlFor="hp">AC</label>
+                        <input className="grey-text text-lighten-3" value={this.state.ac} type="number" id="ac"
                                onChange={this.handleChange}></input>
                     </div>
                     <div className="input-field">
                         <label className={this.isActive(this.state.maxHp)} htmlFor="maxHp">maxHP</label>
                         <input className="grey-text text-lighten-3" value={this.state.maxHp} type="number" id="maxHp"
-                               onChange={this.handleChange}></input>
-                    </div>
-                    <div className="input-field">
-                        <label className={this.isActive(this.state.initiative)} htmlFor="initiative">Initiative</label>
-                        <input className="grey-text text-lighten-3" value={this.state.initiative} type="number"
-                               id="initiative" min="0" max="15"
                                onChange={this.handleChange}></input>
                     </div>
                     <div className="input-field">

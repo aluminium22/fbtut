@@ -10,7 +10,7 @@ import {
     clearTurn,
     updateEncounterChar,
     updateRoll,
-    updateInit
+    updateInit, updateMessage
 } from "../../store/actions/encounterAction";
 import Dice from '../dice/Dice';
 
@@ -51,20 +51,24 @@ class Encounter extends Component {
         //     characters: this.sortCharacter(this.state.characters)
         // })
         console.log('characters- state ', this.state.characters);
-        let chara = null;
-        for (let i = this.state.characters.length - 1; i >= 0; i--) {
-            if (!this.state.characters[i].playedRound) {
-                chara = this.state.characters[i];
+        if (this.state.characters.length > 1) {
+            let chara = null;
+            for (let i = this.state.characters.length - 1; i >= 0; i--) {
+                if (!this.state.characters[i].playedRound) {
+                    chara = this.state.characters[i];
+                }
             }
-        }
-        if (!chara) {
-            this.state.characters.map(character => {
-                this.props.setHasPlayed(character, this.props.encounter.id, false)
-            });
-            chara = this.state.characters[0];
-        }
+            if (!chara) {
+                this.state.characters.map(character => {
+                    this.props.setHasPlayed(character, this.props.encounter.id, false)
+                });
+                chara = this.state.characters[0];
+            }
 
-        this.props.updateTurn(this.props.encounter, chara, true);
+            this.props.updateTurn(this.props.encounter, chara, true);
+        } else {
+            this.props.updateMessage('Get some more dudes to play encounter, nat dumb')
+        }
     };
 
     clearTurn = (encounter) => {
@@ -169,14 +173,38 @@ class Encounter extends Component {
             } else {
                 return (
                     <div className="container center">
-                        <p> Loading </p>
+                        <div className="preloader-wrapper big active">
+                            <div className="spinner-layer spinner-red-only">
+                                <div className="circle-clipper left">
+                                    <div className="circle"></div>
+                                </div>
+                                <div className="gap-patch">
+                                    <div className="circle"></div>
+                                </div>
+                                <div className="circle-clipper right">
+                                    <div className="circle"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 )
             }
         } else {
             return (
                 <div className="container center">
-                    <p> Loading </p>
+                    <div className="preloader-wrapper big active">
+                        <div className="spinner-layer spinner-red-only">
+                            <div className="circle-clipper left">
+                                <div className="circle"></div>
+                            </div>
+                            <div className="gap-patch">
+                                <div className="circle"></div>
+                            </div>
+                            <div className="circle-clipper right">
+                                <div className="circle"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             )
         }
@@ -191,7 +219,8 @@ const mapDispatchtoProps = (dispatch) => {
         clearTurn: (encounter) => dispatch(clearTurn(encounter)),
         updateEncounterChar: (encounter, character) => dispatch(updateEncounterChar(encounter, character)),
         updateRoll: (roll, character) => dispatch(updateRoll(roll, character)),
-        updateInit: (roll, character) => dispatch(updateInit(roll, character))
+        updateInit: (roll, character) => dispatch(updateInit(roll, character)),
+        updateMessage: (message) => dispatch(updateMessage(message)),
 
     }
 };

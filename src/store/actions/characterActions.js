@@ -2,13 +2,20 @@ import firebase from '../../config/fbConfig'
 
 export const updateCharacter = (character, history) => {
   return (dispatch, getState) => {
-    console.log(firebase);
     firebase.firestore().collection('characters').doc(character.id).update({
       ...character
     }).then(() => {
-      dispatch({type: 'UPDATE_CHARACTER', character});
-      console.log('this.', character);
-      history.push("/")
+      if (character.encounterId) {
+        firebase.firestore().collection(`encounters/${character.encounterId}/characters`).doc(character.id).update({
+          ...character
+        }).then(() => {
+          dispatch({type: 'UPDATE_CHARACTER', character});
+          history.push("/")
+        })
+      } else {
+        dispatch({type: 'UPDATE_CHARACTER', character});
+        history.push("/")
+      }
     }).catch((error) => {
       dispatch({type: 'UPDATE_CHARACTER_ERROR', error});
     });
@@ -17,9 +24,7 @@ export const updateCharacter = (character, history) => {
 
 export const deleteCharacter = (character, id, history) => {
   return (dispatch, getState) => {
-    console.log(firebase);
     firebase.firestore().collection('characters').doc(id).delete().then(() => {
-      console.log('delete');
       dispatch({type: 'DELETE_CHARACTER', character});
       history.push("/characters")
     }).catch((error) => {
@@ -32,8 +37,6 @@ export const createCharacter = (character, history) => {
   return (dispatch, getState) => {
     //make asunc call to database
     let user = firebase.auth().currentUser;
-    console.log(user.uid);
-    console.log(firebase);
     firebase.firestore().collection('characters').add({
       ...character,
       masterId: user.uid,
@@ -50,11 +53,14 @@ export const createCharacter = (character, history) => {
 };
 
 export const joinMaster = (email, characterId, character) => {
-  console.log('email', email);
   return (dispatch, getState) => {
     firebase.firestore().collection("users").where('email', '==', email
-    ).get()
-        .then(function (querySnapshot) {
+    ).get().then(function (querySnapshot) {
+      if (querySnapshot.empty) {
+        const error = {};
+        error.message = 'nat 1 investigation, failure to find GM';
+        dispatch({type: 'UPDATE_CHARACTER_ERROR', error});
+      }
           querySnapshot.forEach(function (doc) {
             // doc.data() is never undefined for query doc snapshots
             firebase.firestore().collection('characters').doc(characterId).update({
@@ -62,11 +68,9 @@ export const joinMaster = (email, characterId, character) => {
               masterId: doc.id
             }).then(() => {
               dispatch({type: 'UPDATE_CHARACTER', character});
-              console.log('this.', character);
             })
           });
         }).catch((error) => {
-      console.log('failed');
       dispatch({type: 'UPDATE_CHARACTER_ERROR', error});
     });
   }
@@ -80,10 +84,14 @@ export const detachMaster = (character) => {
       masterId: user.uid,
     }).then(() => {
       dispatch({type: 'UPDATE_CHARACTER', character});
-      console.log('this.', character);
     }).catch((error) => {
-      console.log('failed');
       dispatch({type: 'UPDATE_CHARACTER_ERROR', error});
     });
+  }
+};
+
+export const updateMessage = (message) => {
+  return (dispatch, getState) => {
+    dispatch({type: 'MESSAGE_CHARACTER', message})
   }
 };

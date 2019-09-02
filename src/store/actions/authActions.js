@@ -60,3 +60,8 @@ export const reAuth = (uid) => {
   }
 };
 
+export const updateMessage = (message) => {
+  return (dispatch, getState) => {
+    dispatch({type: 'MESSAGE_AUTH', message})
+  }
+};

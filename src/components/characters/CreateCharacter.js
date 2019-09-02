@@ -6,6 +6,7 @@ import '../../style/custom.css'
 
 class CreateCharacter extends Component {
   state = {
+    ac: 0,
     encounterId: '',
     name: '',
     class: '',
@@ -58,8 +59,8 @@ class CreateCharacter extends Component {
             <input className="grey-text text-lighten-3" type="text" id="imageLink" onChange={this.handleChange}></input>
           </div>
           <div className="input-field">
-            <label htmlFor="hp">HP</label>
-            <input className="grey-text text-lighten-3" type="number" id="hp" required
+            <label htmlFor="ac">AC</label>
+            <input className="grey-text text-lighten-3" type="number" id="ac" required
                    onChange={this.handleChange}></input>
           </div>
           <div className="input-field">
