@@ -93,11 +93,12 @@ export const setHasPlayed = (character, encounterId, value) => {
 export const updateTurn = (encounter, character, value) => {
     return (dispatch, getState) => {
         firebase.firestore().collection(`encounters`).doc(encounter.id).update({
-            turn: character
+            turn: character,
+            count: encounter.count
         }).then(() => {
             firebase.firestore().collection(`encounters/${encounter.id}/characters`).doc(character.id).set({
                 ...character,
-                playedRound: value
+                playedRound: value,
             }).then(() => {
                 dispatch({type: 'UPDATE_ENCOUNTER', character});
 
@@ -114,7 +115,8 @@ export const updateTurn = (encounter, character, value) => {
 export const clearTurn = (encounter) => {
     return (dispatch, getState) => {
         firebase.firestore().collection(`encounters`).doc(encounter.id).update({
-            turn: null
+            turn: null,
+            count: encounter.count
         }).then(() => {
             dispatch({type: 'UPDATE_ENCOUNTER', encounter});
         }).catch((error) => {

@@ -28,6 +28,7 @@ class Encounter extends Component {
         return array;
     }
 
+
     componentDidUpdate(prevProps) {
         // Typical usage (don't forget to compare props):
         if (this.props.encounter !== prevProps.encounter) {
@@ -53,7 +54,13 @@ class Encounter extends Component {
         console.log('characters- state ', this.state.characters);
         if (this.state.characters.length > 1) {
             let chara = null;
+            if (!this.props.encounter.count) {
+                this.props.encounter.count = 0;
+            }
             for (let i = this.state.characters.length - 1; i >= 0; i--) {
+                if (i === this.state.characters.length - 1) {
+                    this.props.encounter.count += 6;
+                }
                 if (!this.state.characters[i].playedRound) {
                     chara = this.state.characters[i];
                 }
@@ -69,9 +76,13 @@ class Encounter extends Component {
         } else {
             this.props.updateMessage('Get some more dudes to play encounter, nat dumb')
         }
+        if (this.props.encounter.turn.userId === this.props.uid) {
+            window.navigator.vibrate([100, 30, 100, 30, 100, 30, 200, 30, 200, 30, 200, 30, 100, 30, 100, 30, 100])
+        }
     };
 
     clearTurn = (encounter) => {
+        this.props.encounter.count = 0;
         encounter.characters.map(character => {
             this.props.setHasPlayed(character, encounter.id, false)
         });
@@ -93,7 +104,7 @@ class Encounter extends Component {
 
     shareRoll = (roll) => {
         this.props.updateRoll(roll, this.state.rollCharacter);
-        this.toggleDiceScreen()
+        // this.toggleDiceScreen()
     };
     shareInit = (roll) => {
         this.props.updateInit(roll, this.state.rollCharacter);

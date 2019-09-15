@@ -87,9 +87,9 @@ class Dice extends Component {
         // this.setState({roll:e})
     };
 
-    shareRoll = () => {
-        this.props.shareRoll(this.state.roll);
-    };
+    // shareRoll = () => {
+    //     this.props.shareRoll(this.state.roll);
+    // };
     shareInit = () => {
         this.props.shareInit(this.state.roll);
     };
@@ -105,7 +105,10 @@ class Dice extends Component {
             multiRoll: rolls.rollCollection,
             isImbrogliando: false,
             ImbrogliandoType: 'none'
-        })
+        });
+        if (this.props.shareRoll) {
+            this.props.shareRoll(rolls.sumRoll);
+        }
     };
 
     static findMaxAndLow(isImbrogliando, type, roof) {
@@ -214,12 +217,12 @@ class Dice extends Component {
             <div className={`dashboard al-container ${this.props.className}`}
                  style={{margin: 0 + 'px', padding: 0 + 'px', width: '100%'}}>
                 <div className='row' style={{padding: 16 + 'px'}}>
-                    {this.props.shareRoll &&
-                    <div className={'col s6 scale-transition '}>
-                        <a className="waves-effect red darken-2 btn" onClick={this.shareRoll}
-                        >Share Roll</a>
-                    </div>
-                    }
+                    {/*{this.props.shareRoll &&*/}
+                    {/*<div className={'col s6 scale-transition '}>*/}
+                    {/*    <a className="waves-effect red darken-2 btn" onClick={this.shareRoll}*/}
+                    {/*    >Share Roll</a>*/}
+                    {/*</div>*/}
+                    {/*}*/}
                     {this.props.shareInit &&
                     <div className={'col s6 scale-transition '}>
                         <a className="waves-effect red darken-2 btn" onClick={this.shareInit}
