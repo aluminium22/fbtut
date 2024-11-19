@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "firebase": "^5.9.4",
+    "firebase": "^10.9.0",
     "lodash.throttle": "^4.1.1",
     "materialize-css": "^1.0.0-rc.2",
     "query-string": "^6.8.2",
